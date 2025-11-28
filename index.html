@@ -1,330 +1,372 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-
-<title>Trilheiros de Rondonópolis – Lagoa Azul 21 de Dezembro</title>
-
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-
-  :root {
-    --bg: #0d0d0d;
-    --card: #151515;
-    --muted: #bdbdbd;
-    --accent: #25D366;
-    --green: #00b894;
-    --blue: #0984e3;
-  }
-
-  * { box-sizing: border-box; }
-
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: #fff;
-    font-family: "Inter", Arial;
-  }
-
-  header {
-    background: #0b0b0b;
-    padding: 16px;
-    border-bottom: 1px solid #1f1f1f;
-    display: flex;
-    justify-content: space-between;
-    font-size: 18px;
-    font-weight: 700;
-  }
-
-  header a {
-    background: var(--accent);
-    padding: 8px 14px;
-    border-radius: 10px;
-    color: #012;
-    text-decoration: none;
-    font-weight: 700;
-  }
-
-  .banner {
-    height: 300px;
-    background: url('./imagens/lagoaazul.png') center/cover no-repeat;
-    position: relative;
-    /* borda removida */
-  }
-
-  .banner::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.35);
-  }
-
-  .banner .txt {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .banner h1 {
-    padding: 0 20px;
-    text-align: center;
-    font-weight: 700;
-    font-size: 26px;
-    text-shadow: 0 4px 12px black;
-  }
-
-  .wrapper {
-    max-width: 540px;
-    margin: -40px auto 40px;
-    padding: 0 16px;
-  }
-
-  .card {
-    background: var(--card);
-    border-radius: 14px;
-    padding: 18px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-  }
-
-  .info {
-    background: #0f0f0f;
-    padding: 14px;
-    border-radius: 12px;
-    line-height: 1.6;
-    border: 1px solid #222;
-    margin-bottom: 16px;
-  }
-
-  .info strong { color: var(--accent); }
-
-  label {
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 12px;
-    margin-bottom: 4px;
-    display: block;
-  }
-
-  input, select {
-    width: 100%;
-    padding: 12px;
-    background: #000;
-    border: 1px solid #2a2a2a;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 15px;
-    margin-bottom: 8px;
-  }
-
-  .row { display: flex; gap: 10px; }
-  .col { flex: 1; }
-
-  .total {
-    margin-top: 10px;
-    font-size: 19px;
-    font-weight: 700;
-  }
-
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 14px;
-  }
-
-  .btn {
-    padding: 14px;
-    border-radius: 12px;
-    font-size: 17px;
-    font-weight: 800;
-    text-align: center;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-  .pix { background: var(--green); color: #012; display: none; }
-  .cart { background: var(--blue); color: #fff; display: none; }
-  .whats { background: var(--accent); color: #012; display: none; }
-
-  footer {
-    text-align: center;
-    color: var(--muted);
-    font-size: 13px;
-    margin-bottom: 20px;
-    padding: 0 16px;
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reserva - Lagoa Azul | Trilheiros</title>
+  <style>
+    :root{--accent:#0ea5a0;--bg:#fbfbfb;--card:#fff}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;line-height:1.5;background:var(--bg);color:#0b1220;margin:0;padding:24px}
+    .container{max-width:980px;margin:0 auto}
+    header{display:flex;align-items:center;gap:16px}
+    h1{font-size:28px;margin:0}
+    .card{background:var(--card);border-radius:12px;box-shadow:0 6px 18px rgba(12,18,26,0.06);padding:18px;margin-top:18px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    label{display:block;margin:8px 0 6px;font-weight:600}
+    input[type=number],select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ee}
+    button{background:var(--accent);color:#fff;border:0;padding:12px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+    .muted{color:#536070;font-size:14px}
+    .meta{display:flex;gap:12px;flex-wrap:wrap}
+    .pill{background:#eef7f6;padding:8px 10px;border-radius:999px;font-weight:700}
+    .soldout{background:#ffdede;color:#9b1b1b;padding:10px;border-radius:8px}
+    .small{font-size:13px}
+    .footer{margin-top:18px;font-size:13px;color:#425165}
+    .countdown{display:flex;gap:10px}
+    .countdown span{background:#fff;padding:10px;border-radius:8px;min-width:56px;text-align:center;font-weight:700}
+    .items-list{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+    .note{background:#fffbe6;padding:10px;border-radius:8px}
+    .total{font-size:20px;font-weight:800;margin-top:8px}
+    .danger{color:#a91b1b}
+    @media(max-width:880px){.grid{grid-template-columns:1fr;}.card{padding:14px}}
+  </style>
 </head>
 <body>
-
-<header>
-  Trilheiros de Rondonópolis
-  <a href="https://wa.me/5566996926174" target="_blank">WhatsApp</a>
-</header>
-
-<section class="banner">
-  <div class="txt">
-    <h1>Trilheiros de Rondonópolis – Lagoa Azul<br>21 de Dezembro</h1>
-  </div>
-</section>
-
-<main class="wrapper">
-  <div class="card">
-
-    <div class="info">
-      <strong>Incluso:</strong><br>
-      Transporte ida e volta · Snorkel · Colete salva-vidas · Seguro de vida · Guia local · Muita diversão e aventura
-    </div>
-
-    <label>Seu nome</label>
-    <input id="nome" type="text" placeholder="Digite seu nome completo" />
-
-    <div class="row">
-      <div class="col">
-        <label>Quantidade de vagas</label>
-        <select id="vagas">
-          <option value="" disabled selected>Selecione…</option>
-          <option value="1">1 vaga</option>
-          <option value="2">2 vagas</option>
-          <option value="3">3 vagas</option>
-        </select>
+  <div class="container">
+    <header>
+      <img src="https://imgur.com/e2c5e929-cdb2-4f42-89e4-dcebdff79881" alt="Logo Trilheiros" style="width:80px;height:80px;border-radius:12px;object-fit:cover">
+      <img src="" alt="Lagoa Azul" id="heroImg" src="https://i.imgur.com/aZCi6df.jpeg" alt="Lagoa Azul" style="width:86px;height:86px;border-radius:10px;object-fit:cover">
+      <div>
+        <h1>Dia de viver a magia da Lagoa Azul! 💙✨</h1>
+        <div class="muted">21 de dezembro de 2025 • Primavera do Leste, MT</div>
       </div>
+    </header>
 
-      <div class="col">
-        <label>Tipo</label>
-        <select id="tipo">
-          <option value="adulto" data-pix="332" data-cart="339">Adulto (valor automático)</option>
-          <option value="crianca">Criança (consultar valor)</option>
-          <option value="veiculo">Veículo próprio (consultar valor)</option>
-        </select>
-      </div>
+    <div class="card grid">
+      <section>
+        <h3>Sobre o passeio</h3>
+        <p>Rumo à Primavera do Leste para aproveitar águas cristalinas, natureza e muita energia boa. Um dia perfeito para relaxar, renovar as energias e encerrar o ano com uma experiência inesquecível.</p>
+
+        <div class="card">
+          <strong>Incluso no passeio</strong>
+          <div class="items-list">
+            <div>🚐 Transporte ida e volta</div>
+            <div>🤿 Snorkel</div>
+            <div>🦺 Colete salva-vidas</div>
+            <div>🛡️ Seguro de vida</div>
+            <div>😄 Muita diversão e aventura</div>
+          </div>
+        </div>
+
+        <div style="margin-top:10px">
+          <strong>Valores</strong>
+          <ul>
+            <li>R$ 332,00 — Adulto (com transporte)</li>
+            <li>R$ 282,00 — Criança até 10 anos</li>
+            <li>R$ 220,00 — Por pessoa (veículo próprio)</li>
+            <li>R$ 339,00 — Cartão de crédito (por pessoa)</li>
+          </ul>
+        </div>
+
+        <div style="margin-top:10px">
+          <strong>Contador do passeio</strong>
+          <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
+            <div class="pill">🔢 Vagas totais: <strong id="totalSpots">28</strong></div>
+            <div class="pill">✅ Reservadas: <strong id="reservedCount">0</strong></div>
+            <div class="pill">🎟️ Restantes: <strong id="remainingCount">28</strong></div>
+          </div>
+
+          <div style="margin-top:10px" class="countdown small">
+            <div>Contagem regressiva:</div>
+            <div id="countdownBlocks" class="countdown"></div>
+          </div>
+
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <strong>Faça sua reserva</strong>
+          <div class="muted small">Escolha quantas vagas — o botão irá bloquear automaticamente quando as 28 vagas forem preenchidas.</div>
+
+          <label>Adultos (com transporte) — R$ 332,00</label>
+          <input id="adults" type="number" min="0" max="10" value="1">
+
+          <label>Crianças até 10 anos — R$ 282,00</label>
+          <input id="children" type="number" min="0" max="10" value="0">
+
+          <label>Pessoas com veículo próprio — R$ 220,00</label>
+          <input id="vehicleOwn" type="number" min="0" max="10" value="0">
+
+          <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+            <div class="muted">Meio de pagamento:</div>
+            <select id="paymentMethod">
+              <option value="pix">PIX (trilheiros.roomt)</option>
+              <option value="card">Cartão de crédito</option>
+            </select>
+          </div>
+
+          <label>Nome completo do responsável pela reserva</label>
+<input id="clientName" type="text" placeholder="Digite seu nome" style="width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ee">
+
+<div class="total" id="totalDisplay">Total: R$ 332,00</div>
+
+<div id="cardHighlight" style="position:sticky;top:10px;margin-top:12px;padding:14px;border-radius:10px;background:#fff3c4;border:2px solid #ffe08a;display:none;text-align:center;font-weight:700;font-size:18px;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,0.1)">
+  Digite este valor no cartão:<br>
+  <span id="cardValue" style="font-size:24px;color:#8a5d00"></span>
+  <br><button id="copyCardValue" style="margin-top:10px;padding:6px 12px;border-radius:8px;border:0;background:#8a5d00;color:white;font-weight:600;cursor:pointer">Copiar valor</button>
+  <div id="cardWarning" style="margin-top:10px;color:#b80000;font-size:14px;display:none">⚠️ Para mais de 2 vagas, confirme com Jonatas antes de pagar</div>
+</div>
+
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+            <button id="btnPix">Pagar via PIX (copiar chave)</button>
+            <button id="btnCard">Pagar com cartão</button>
+            <button id="btnConfirm">Confirmar reserva (simulação)</button>
+<button id="btnSendWhats">Enviar reserva pelo WhatsApp</button>
+          </div>
+
+          <div id="paymentNote" class="muted small" style="margin-top:8px"></div>
+
+<button id="btnWhatsJonatas" style="margin-top:10px;background:#25D366">Falar com Jonatas no WhatsApp</button>
+
+          <div id="soldOutMessage" style="margin-top:10px"></div>
+        </div>
+
+      </section>
+
+      <aside>
+        <div class="card">
+          <strong>Resumo rápido</strong>
+          <div style="margin-top:8px">
+            <div>Adultos: <span id="sumAdults">1</span></div>
+            <div>Crianças: <span id="sumChildren">0</span></div>
+            <div>Veículo próprio: <span id="sumVehicle">0</span></div>
+            <div class="total" id="sumTotal">R$ 332,00</div>
+          </div>
+
+          <div style="margin-top:12px" class="note">
+            <strong>Atenção</strong>
+            <div class="small" style="margin-top:6px">- Para pagamentos no cartão com mais de 2 reservas, fale com o Jonatas para gerar um link específico.</div>
+            <div class="small">- Esta versão salva reservas localmente no navegador (simulação). Para funcionar entre vários dispositivos é necessário integrar um banco (ex: Firebase) — posso te ajudar com isso.</div>
+          </div>
+
+          <div style="margin-top:10px">
+            <strong>Contato</strong>
+            <div class="small">WhatsApp: <a href="https://wa.me/5566996926174" target="_blank">(66) 99962-6174</a></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <strong>Link de cartão</strong>
+          <div style="margin-top:8px"><a id="mpagoLink" href="https://mpago.li/21wuNLV" target="_blank">Pagar com cartão (Mercado Pago)</a></div>
+
+          <div style="margin-top:12px">
+            <strong>Chave PIX</strong>
+            <div style="margin-top:6px">trilheiros.roomt</div>
+          </div>
+        </div>
+
+      </aside>
     </div>
 
-    <label>Forma de pagamento</label>
-    <select id="pag">
-      <option value="" disabled selected>Selecione…</option>
-      <option value="pix">Pix</option>
-      <option value="cartao">Cartão</option>
-    </select>
-
-    <div class="total" id="total">Total: —</div>
-
-    <div class="buttons">
-      <button id="btnPix" class="btn pix">💸 Copiar PIX (trilheiros.roomt@gmail.com)</button>
-      <a id="btnCart" class="btn cart" href="https://mpago.li/21wuNLV" target="_blank">💳 Pagar no cartão</a>
-      <a id="btnWhats" class="btn whats" href="#" target="_blank">📲 Falar com Jonatas / Enviar comprovante</a>
-    </div>
-
+    <div class="footer">Feito com carinho — Jonatas Trilheiros. ⚡️</div>
   </div>
-</main>
 
-<footer>
-  Trilheiros de Rondonópolis • Instagram: @trilheiros.roomt • WhatsApp: (66) 99692-6174 • © 2025<br>
-  Viva a experiência. Sinta a natureza.
-</footer>
+  <script>
+    // Inicialização
+    const TOTAL = 10;
+    const KEY = 'lagoa_reserved_count_v1';
+    const reserved = Number(localStorage.getItem(KEY) || 0);
+    document.getElementById('totalSpots').innerText = TOTAL;
+    document.getElementById('reservedCount').innerText = reserved;
+    document.getElementById('remainingCount').innerText = Math.max(0, TOTAL - reserved);
 
-<script>
-  const pixKey = "trilheiros.roomt@gmail.com";
-  const waNumber = "5566996926174";
+    // Elementos
+    const adultsIn = document.getElementById('adults');
+    const childrenIn = document.getElementById('children');
+    const vehicleIn = document.getElementById('vehicleOwn');
+    const sumAdults = document.getElementById('sumAdults');
+    const sumChildren = document.getElementById('sumChildren');
+    const sumVehicle = document.getElementById('sumVehicle');
+    const sumTotal = document.getElementById('sumTotal');
+    const totalDisplay = document.getElementById('totalDisplay');
+    const btnPix = document.getElementById('btnPix');
+    const btnCard = document.getElementById('btnCard');
+    const btnConfirm = document.getElementById('btnConfirm');
+    const paymentMethod = document.getElementById('paymentMethod');
+    const paymentNote = document.getElementById('paymentNote');
+    const mpagoLink = document.getElementById('mpagoLink');
+    const soldOutMessage = document.getElementById('soldOutMessage');
 
-  const nome = document.getElementById("nome");
-  const vagas = document.getElementById("vagas");
-  const tipo = document.getElementById("tipo");
-  const pag = document.getElementById("pag");
-  const totalEl = document.getElementById("total");
+    // Preço
+    const PRICE_ADULT_PIX = 332.00;
+    const PRICE_CHILD_PIX = 282.00;
+    const PRICE_VEHICLE = 220.00;
+    const PRICE_CARD = 339.00;
 
-  const btnPix = document.getElementById("btnPix");
-  const btnCart = document.getElementById("btnCart");
-  const btnWhats = document.getElementById("btnWhats");
-
-  function calc() {
-    const qtd = Number(vagas.value);
-    if (!qtd) { reset(); return; }
-
-    const selected = tipo.value;
-
-    if (selected === "crianca" || selected === "veiculo") {
-      totalEl.textContent = "Total: consultar valor com Jonatas 📲";
-      btnPix.style.display = "none";
-      btnCart.style.display = "none";
-      updateWhats(true);
-      btnWhats.style.display = "block";
-      return;
+    function currencyBR(num){
+      return num.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
     }
 
-    const opt = tipo.options[tipo.selectedIndex];
-    const pixPrice = Number(opt.dataset.pix);
-    const cartPrice = Number(opt.dataset.cart);
+    function calc(){
+      const a = Number(adultsIn.value||0);
+      const c = Number(childrenIn.value||0);
+      const v = Number(vehicleIn.value||0);
+      sumAdults.innerText = a;
+      sumChildren.innerText = c;
+      sumVehicle.innerText = v;
+      const totalPix = (a * PRICE_ADULT_PIX) + (c * PRICE_CHILD_PIX) + (v * PRICE_VEHICLE);
+      const totalCard = (a + c + v) * PRICE_CARD;
+      const totalTickets = a + c + v;
+      const method = paymentMethod.value;
+      sumTotal.innerText = currencyBR(method === 'pix' ? totalPix : totalCard);
+      totalDisplay.innerText = 'Total: ' + currencyBR(method === 'pix' ? totalPix : totalCard);
 
-    let unit = pixPrice;
-    if (pag.value === "cartao") unit = cartPrice;
+      // payment rules
+      if(method === 'card' && totalTickets > 2){
+        paymentNote.innerText = 'Para pagamentos no cartão com mais de 2 reservas, fale com o Jonatas para gerar um novo link.';
+      } else {
+        paymentNote.innerText = '';
+      }
 
-    const total = qtd * unit;
-    totalEl.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+      // enable/disable card link
+      if(method === 'card' && totalTickets > 2){
+        btnCard.disabled = true;
+      } else {
+        btnCard.disabled = false;
+      }
 
-    btnPix.style.display = pag.value === "pix" ? "block" : "none";
-    btnCart.style.display = pag.value === "cartao" ? "block" : "none";
+      // check seats availability
+      const currentReserved = Number(localStorage.getItem(KEY) || 0);
+      if(currentReserved >= TOTAL){
+        disableAllSoldOut();
+      } else {
+        enableIfSpace();
+      }
 
-    updateWhats(false);
-    btnWhats.style.display = "block";
-  }
-
-  function reset() {
-    totalEl.textContent = "Total: —";
-    btnPix.style.display = "none";
-    btnCart.style.display = "none";
-    btnWhats.style.display = "none";
-  }
-
-  function updateWhats(consultar = false) {
-    const nomeTxt = nome.value || "[Nome]";
-    const qtd = vagas.value || "[Qtd]";
-    const tipoTxt = tipo.options[tipo.selectedIndex].text;
-    const metodo = pag.value || "[Pagamento]";
-    const totalTxt = totalEl.textContent.replace("Total: ", "");
-
-    let msg = "";
-
-    if (consultar) {
-      msg =
-`Olá! Meu nome é ${nomeTxt}.
-Quero reservar o passeio Lagoa Azul (21/12).
-Quantidade: ${qtd}
-Tipo: ${tipoTxt}
-
-Como é criança ou veículo próprio, preciso confirmar o valor com você.`;
-    } else {
-      msg =
-`Olá! Meu nome é ${nomeTxt}.
-Quero confirmar minha reserva para a Lagoa Azul (21/12).
-
-Quantidade: ${qtd}
-Tipo: ${tipoTxt}
-Forma de pagamento: ${metodo.toUpperCase()}
-${totalTxt}
-
-Segue meu comprovante.`;
+      document.getElementById('cardHighlight').style.display = method==='card' ? 'block' : 'none';
+      document.getElementById('cardValue').innerText = currencyBR(method==='card'? totalCard : 0);
+      return {totalPix, totalCard, totalTickets};
     }
 
-    btnWhats.href =
-      "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(msg);
-  }
+    function enableIfSpace(){
+      soldOutMessage.innerHTML = '';
+      btnConfirm.disabled = false;
+      btnPix.disabled = false;
+      btnCard.disabled = false;
+    }
+    function disableAllSoldOut(){
+      soldOutMessage.innerHTML = '<div class="soldout">🚫 Vagas esgotadas</div>';
+      btnConfirm.disabled = true;
+      btnPix.disabled = true;
+      btnCard.disabled = true;
+    }
 
-  btnPix.onclick = () => {
-    const total = totalEl.textContent.replace("Total: ", "");
-    navigator.clipboard.writeText(`${pixKey} • Valor: ${total}`).then(() => {
-      alert("Chave PIX copiada!");
+    // Attach events
+    [adultsIn,childrenIn,vehicleIn,paymentMethod].forEach(el=>el.addEventListener('input',calc));
+    window.addEventListener('load',calc);
+
+    // Botão falar com Jonatas
+const btnWhatsJonatas = document.getElementById('btnWhatsJonatas');
+btnWhatsJonatas.addEventListener('click', ()=>{
+  window.open('https://wa.me/5566996926174','_blank');
+});
+
+// copiar valor do cartão
+const btnCopyCard = document.getElementById('copyCardValue');
+btnCopyCard?.addEventListener('click', ()=>{
+  const v = document.getElementById('cardValue').innerText;
+  navigator.clipboard.writeText(v).then(()=>alert('Valor copiado: ' + v));
+});
+
+// PIX button - copia chave e abre instruções
+    btnPix.addEventListener('click', ()=>{
+      const {totalPix, totalTickets} = calc();
+      if(totalTickets <= 0){ alert('Escolha ao menos 1 vaga.'); return; }
+      // copy chave PIX
+      navigator.clipboard?.writeText('trilheiros.roomt').then(()=>{
+        alert('Chave PIX copiada: trilheiros.roomt\n\nAbra seu app e cole a chave. Valor: ' + currencyBR(totalPix));
+      }).catch(()=>{
+        prompt('Copie a chave PIX', 'trilheiros.roomt');
+      });
     });
-  };
 
-  nome.oninput = () => updateWhats(tipo.value !== "adulto");
-  vagas.onchange = calc;
-  tipo.onchange = calc;
-  pag.onchange = calc;
-</script>
+    // Card button - abre link or shows contact message
+    btnCard.addEventListener('click', ()=>{
+      const {totalTickets, totalPix} = calc();
+      if(totalTickets <= 0){ alert('Escolha ao menos 1 vaga.'); return; }
+      const total = totalPix; // mostrar o total para pessoa pagar
+      alert('Você será redirecionado para o link do cartão. Valor a pagar: ' + currencyBR(total));
+      window.open('https://link.mercadopago.com.br/trilheirosderoo', '_blank');
+    });('click', ()=>{
+      const {totalTickets} = calc();
+      if(totalTickets <= 0){ alert('Escolha ao menos 1 vaga.'); return; }
+      if(totalTickets > 2){
+        alert('Reservas maiores que 2 pessoas no cartão: fale com o Jonatas para gerar link.\nWhatsApp: (66) 99962-6174');
+        window.open('https://wa.me/5566996926174', '_blank');
+        return;
+      }
+      window.open(mpagoLink.href, '_blank');
+    });
 
+    // WhatsApp enviar
+const btnSendWhats = document.getElementById('btnSendWhats');
+btnSendWhats.addEventListener('click', () => {
+  const name = document.getElementById('clientName').value.trim();
+  const { totalTickets, totalPix } = calc();
+  if(!name){ alert('Digite seu nome.'); return; }
+  if(totalTickets <= 0){ alert('Escolha ao menos 1 vaga.'); return; }
+  const msg = `Olá, segue minha reserva para Lagoa Azul:%0A• Nome: ${name}%0A• Vagas: ${totalTickets}%0A• Valor: ${currencyBR(totalPix)}%0A• Comprovante em anexo.`;
+  window.open(`https://wa.me/5566996926174?text=${msg}`, '_blank');
+});
+
+// Confirm reservation (simulação): decrementa vagas e salva no localStorage
+    btnConfirm.addEventListener('click', ()=>{
+      const {totalTickets, totalPix} = calc();
+      if(totalTickets <= 0){ alert('Escolha ao menos 1 vaga.'); return; }
+      let current = Number(localStorage.getItem(KEY) || 0);
+      if(current + totalTickets > TOTAL){
+        alert('Não há vagas suficientes. Restam ' + (TOTAL - current) + ' vagas.');
+        return;
+      }
+      current += totalTickets;
+      localStorage.setItem(KEY, current);
+      document.getElementById('reservedCount').innerText = current;
+      document.getElementById('remainingCount').innerText = Math.max(0, TOTAL - current);
+
+      // save detalhes simples
+      const reservations = JSON.parse(localStorage.getItem('lagoa_reservas_list_v1') || '[]');
+      const id = 'R' + Date.now();
+      reservations.push({id, adults: Number(adultsIn.value), children: Number(childrenIn.value), vehicle: Number(vehicleIn.value), totalTickets, totalPix, date: new Date().toISOString()});
+      localStorage.setItem('lagoa_reservas_list_v1', JSON.stringify(reservations));
+
+      alert('Reserva registrada (simulação). ID: ' + id + '\nTotal: ' + currencyBR(totalPix) + '\nUse o botão PIX para copiar a chave e concluir o pagamento.');
+      calc();
+    });
+
+    // Countdown
+    function startCountdown(targetDate){
+      const target = new Date(targetDate).getTime();
+      const container = document.getElementById('countdownBlocks');
+      function tick(){
+        const now = Date.now();
+        const diff = Math.max(0, target - now);
+        const days = Math.floor(diff / (1000*60*60*24));
+        const hours = Math.floor((diff / (1000*60*60)) % 24);
+        const minutes = Math.floor((diff / (1000*60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        container.innerHTML = `<span>${days}d</span><span>${hours}h</span><span>${minutes}m</span><span>${seconds}s</span>`;
+        if(diff<=0) clearInterval(timer);
+      }
+      tick();
+      const timer = setInterval(tick,1000);
+    }
+    startCountdown('2025-12-21T06:00:00');
+
+    // Show existing reservations count on load
+    document.getElementById('reservedCount').innerText = Number(localStorage.getItem(KEY) || 0);
+    document.getElementById('remainingCount').innerText = Math.max(0, TOTAL - Number(localStorage.getItem(KEY) || 0));
+
+    // If sold out at load
+    if(Number(localStorage.getItem(KEY) || 0) >= TOTAL) disableAllSoldOut();
+  </script>
 </body>
 </html>
+
