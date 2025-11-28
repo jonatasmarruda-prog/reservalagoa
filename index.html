@@ -50,7 +50,7 @@
     height: 300px;
     background: url('./imagens/lagoaazul.png') center/cover no-repeat;
     position: relative;
-    border-bottom: 3px solid var(--accent);
+    /* borda removida */
   }
 
   .banner::after {
@@ -122,13 +122,6 @@
   .row { display: flex; gap: 10px; }
   .col { flex: 1; }
 
-  .priceLine {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 4px;
-    font-size: 15px;
-  }
-
   .total {
     margin-top: 10px;
     font-size: 19px;
@@ -163,11 +156,6 @@
     margin-bottom: 20px;
     padding: 0 16px;
   }
-
-  @media(min-width:800px) {
-    .banner { height: 350px; }
-    .banner h1 { font-size: 32px; }
-  }
 </style>
 </head>
 <body>
@@ -189,12 +177,6 @@
     <div class="info">
       <strong>Incluso:</strong><br>
       Transporte ida e volta · Snorkel · Colete salva-vidas · Seguro de vida · Guia local · Muita diversão e aventura
-      <br><br>
-      <strong>Valores:</strong><br>
-      <div class="priceLine"><span>Adulto – Pix</span><span>R$ 332</span></div>
-      <div class="priceLine"><span>Adulto – Cartão</span><span>R$ 339</span></div>
-      <div class="priceLine"><span>Criança até 10 anos</span><span>R$ 282</span></div>
-      <div class="priceLine"><span>Veículo próprio</span><span>R$ 220</span></div>
     </div>
 
     <label>Seu nome</label>
@@ -214,9 +196,9 @@
       <div class="col">
         <label>Tipo</label>
         <select id="tipo">
-          <option value="adulto" data-pix="332" data-cart="339">Adulto</option>
-          <option value="crianca" data-pix="282" data-cart="282">Criança até 10 anos</option>
-          <option value="veiculo" data-pix="220" data-cart="220">Veículo próprio</option>
+          <option value="adulto" data-pix="332" data-cart="339">Adulto (valor automático)</option>
+          <option value="crianca">Criança (consultar valor)</option>
+          <option value="veiculo">Veículo próprio (consultar valor)</option>
         </select>
       </div>
     </div>
@@ -233,7 +215,7 @@
     <div class="buttons">
       <button id="btnPix" class="btn pix">💸 Copiar PIX (trilheiros.roomt@gmail.com)</button>
       <a id="btnCart" class="btn cart" href="https://mpago.li/21wuNLV" target="_blank">💳 Pagar no cartão</a>
-      <a id="btnWhats" class="btn whats" href="#" target="_blank">📲 Enviar comprovante no WhatsApp</a>
+      <a id="btnWhats" class="btn whats" href="#" target="_blank">📲 Falar com Jonatas / Enviar comprovante</a>
     </div>
 
   </div>
@@ -253,29 +235,40 @@
   const tipo = document.getElementById("tipo");
   const pag = document.getElementById("pag");
   const totalEl = document.getElementById("total");
+
   const btnPix = document.getElementById("btnPix");
   const btnCart = document.getElementById("btnCart");
   const btnWhats = document.getElementById("btnWhats");
 
   function calc() {
-    const v = Number(vagas.value);
-    if (!v) { reset(); return; }
+    const qtd = Number(vagas.value);
+    if (!qtd) { reset(); return; }
+
+    const selected = tipo.value;
+
+    if (selected === "crianca" || selected === "veiculo") {
+      totalEl.textContent = "Total: consultar valor com Jonatas 📲";
+      btnPix.style.display = "none";
+      btnCart.style.display = "none";
+      updateWhats(true);
+      btnWhats.style.display = "block";
+      return;
+    }
 
     const opt = tipo.options[tipo.selectedIndex];
     const pixPrice = Number(opt.dataset.pix);
     const cartPrice = Number(opt.dataset.cart);
-    const method = pag.value;
 
     let unit = pixPrice;
-    if (method === "cartao") unit = cartPrice;
+    if (pag.value === "cartao") unit = cartPrice;
 
-    const total = v * unit;
+    const total = qtd * unit;
     totalEl.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
 
-    btnPix.style.display = method === "pix" ? "block" : "none";
-    btnCart.style.display = method === "cartao" ? "block" : "none";
+    btnPix.style.display = pag.value === "pix" ? "block" : "none";
+    btnCart.style.display = pag.value === "cartao" ? "block" : "none";
 
-    updateWhats();
+    updateWhats(false);
     btnWhats.style.display = "block";
   }
 
@@ -286,22 +279,35 @@
     btnWhats.style.display = "none";
   }
 
-  function updateWhats() {
+  function updateWhats(consultar = false) {
     const nomeTxt = nome.value || "[Nome]";
-    const v = vagas.value || "[Qtd]";
+    const qtd = vagas.value || "[Qtd]";
     const tipoTxt = tipo.options[tipo.selectedIndex].text;
-    const metodo = pag.value || "[Método]";
+    const metodo = pag.value || "[Pagamento]";
     const totalTxt = totalEl.textContent.replace("Total: ", "");
 
-    const msg = 
+    let msg = "";
+
+    if (consultar) {
+      msg =
+`Olá! Meu nome é ${nomeTxt}.
+Quero reservar o passeio Lagoa Azul (21/12).
+Quantidade: ${qtd}
+Tipo: ${tipoTxt}
+
+Como é criança ou veículo próprio, preciso confirmar o valor com você.`;
+    } else {
+      msg =
 `Olá! Meu nome é ${nomeTxt}.
 Quero confirmar minha reserva para a Lagoa Azul (21/12).
-Vagas: ${v}
+
+Quantidade: ${qtd}
 Tipo: ${tipoTxt}
 Forma de pagamento: ${metodo.toUpperCase()}
-Valor: ${totalTxt}
+${totalTxt}
 
 Segue meu comprovante.`;
+    }
 
     btnWhats.href =
       "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(msg);
@@ -310,11 +316,11 @@ Segue meu comprovante.`;
   btnPix.onclick = () => {
     const total = totalEl.textContent.replace("Total: ", "");
     navigator.clipboard.writeText(`${pixKey} • Valor: ${total}`).then(() => {
-      alert("Chave PIX copiada com sucesso!");
+      alert("Chave PIX copiada!");
     });
   };
 
-  nome.oninput = updateWhats;
+  nome.oninput = () => updateWhats(tipo.value !== "adulto");
   vagas.onchange = calc;
   tipo.onchange = calc;
   pag.onchange = calc;
