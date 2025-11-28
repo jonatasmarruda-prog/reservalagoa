@@ -77,7 +77,8 @@ input, select {
     text-align: center;
 }
 
-a.btn {
+a.btn{display:block;text-decoration:none;text-align:center;padding:16px;border-radius:14px;margin-top:16px;font-size:18px;font-weight:bold;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,0.4),0 8px 18px rgba(0,0,0,0.6);transition:0.2s;}
+a.btn:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,0.4);} {
     display: block;
     text-decoration: none;
     text-align: center;
@@ -114,6 +115,26 @@ let vagasTotais = 28;
 let vagasReservadas = 0;
 let qtdAdulto = 1;
 let qtdCrianca = 0;
+
+function selecionarAdulto(){ qtdAdulto = Number(document.getElementById('adultoSelect').value); atualizar(); }
+function selecionarCrianca(){ qtdCrianca = Number(document.getElementById('criancaSelect').value); atualizar(); }
+
+function mostrarPagamento(){
+  let tipo = document.getElementById("selectPagamento").value;
+  let pix = document.getElementById("pixbtn");
+  let card = document.getElementById("cardbtn");
+
+  if(tipo === "PIX"){
+    pix.style.display = "block";
+    card.style.display = "none";
+  } else if(tipo === "CREDITO"){
+    pix.style.display = "none";
+    card.style.display = "block";
+  } else {
+    pix.style.display = "none";
+    card.style.display = "none";
+  }
+}
 
 function atualizar() {
     let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
@@ -165,9 +186,43 @@ function enviarWhatsApp() {
     let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
     let totalVagas = qtdAdulto + qtdCrianca;
 
-    let msg = `Olá, meu nome é ${nome}.\nReservei ${totalVagas} vaga(s) para a Lagoa Azul.\nValor total: R$ ${total}.\nSegue comprovante.`;
+    let msg = `Olá! Seguem os dados da minha reserva para a Lagoa Azul:
+
+👤 Nome(s): ${nome}
+🎟️ Vagas: ${totalVagas}
+💰 Valor total: R$ ${total}
+📎 Segue o comprovante em anexo.`;
 
     window.open("https://wa.me/5566996926174?text=" + encodeURIComponent(msg), "_blank");
+}
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDe3q92CKXOJUJ7vj2xmYlqKvlFirG4FMc",
+  authDomain: "reserva-lagoa-azul.firebaseapp.com",
+  databaseURL: "https://reserva-lagoa-azul-default-rtdb.firebaseio.com/",
+  projectId: "reserva-lagoa-azul",
+  storageBucket: "reserva-lagoa-azul.firebasestorage.app",
+  messagingSenderId: "681171703490",
+  appId: "1:681171703490:web:73fd26225e944966620d5b",
+  measurementId: "G-ZSDR07N74G"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// --- Sistema de contador real ---
+function atualizarContadorRealtime(){
+  db.ref("reservas_total").on("value", snap => {
+    vagasReservadas = snap.val() || 0;
+    atualizar();
+  });
+}
+
+function registrarReserva(totalVagas){
+  const novaQtd = vagasReservadas + totalVagas;
+  db.ref("reservas_total").set(novaQtd);
 }
 </script>
 </head>
@@ -185,33 +240,81 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
 <h2>Lagoa Azul – Primavera do Leste</h2>
 <p>Data: 21 de dezembro</p>
 
-<label>Nome completo</label>
-<input id="nome" placeholder="Digite seu nome completo" style="height:48px;">
+<label>Nome para reserva</label>
+<input id="nome" placeholder="Digite todos os nomes da reserva""Digite seu nome completo" style="height:48px;">
 
 <label>Adultos</label>
-<div class="contador">
-<button onclick="diminuir('adulto')">-</button>
-<span id="ad">1</span>
-<button onclick="aumentar('adulto')">+</button>
-</div>
+<select id="adultoSelect" onchange="selecionarAdulto()" style="width:100%;padding:14px;font-size:18px;border-radius:8px;border:none;background:#2a2a2a;color:#fff;">
+  <option value="1">1 vaga</option>
+  <option value="2">2 vagas</option>
+  <option value="3">3 vagas</option>
+  <option value="4">4 vagas</option>
+  <option value="5">5 vagas</option>
+</select>
 
 <label>Crianças até 10 anos</label>
-<div class="contador">
-<button onclick="diminuir('crianca')">-</button>
-<span id="cr">0</span>
-<button onclick="aumentar('crianca')">+</button>
-</div>
+<select id="criancaSelect" onchange="selecionarCrianca()" style="width:100%;padding:14px;font-size:18px;border-radius:8px;border:none;background:#2a2a2a;color:#fff;">
+  <option value="0">0 vaga</option>
+  <option value="1">1 vaga</option>
+  <option value="2">2 vagas</option>
+  <option value="3">3 vagas</option>
+  <option value="4">4 vagas</option>
+  <option value="5">5 vagas</option>
+</select>
 
 <p id="total" class="total">Total R$ 332</p>
 <p id="vagasRest" class="vagas-restantes">Vagas restantes: 28</p>
 <p id="mensagem" class="mensagem"></p>
 
-<a id="pixbtn" class="btn pixbtn">Pagar no PIX</a>
-<a id="cardbtn" class="btn creditobtn" target="_blank">Pagar no cartão</a>
+<div id="formasPagamento" style="margin-top:20px; text-align:center;">
+  <label style="font-size:20px; font-weight:bold;">Qual forma de pagamento?</label>
+  <select id="selectPagamento" onchange="mostrarPagamento()" style="width:100%;padding:14px;font-size:18px;border-radius:8px;border:none;background:#2a2a2a;color:#fff;margin-top:10px;">
+    <option value="">Selecione...</option>
+    <option value="PIX">🔥 PIX (recomendado)</option>
+    <option value="CREDITO">💳 Cartão de Crédito</option>
+  </select>
+  <p id="infoPagamento" style="display:none;font-size:16px;color:#00e676;margin-top:12px;font-weight:bold;">
+    ✔ Após realizar o pagamento, clique abaixo para confirmar sua reserva e enviar o comprovante.
+  </p>
+</div>
+
+<a id="pixbtn" class="btn pixbtn" style="display:none;">⚡ Copiar chave PIX</a>
+<a id="cardbtn" class="btn creditobtn" target="_blank" style="display:none;">💳 Pagar no cartão</a>
 <a class="btn wabtn" href="javascript:enviarWhatsApp()">Após pagamento, enviar comprovante</a>
 </div>
 
+<!-- TELA DE CONFIRMAÇÃO -->
+<div id="confirmTela" class="card" style="display:none;background:#0f0f0f;border:2px solid #00c853;">
+  <h2 style="text-align:center;color:#00ff95;">✨ Confirmar Reserva</h2>
+  <p id="confResumo" style="font-size:18px;color:#ccc;text-align:center;margin-bottom:20px;"></p>
+
+  <a class="btn wabtn" id="btnConfirmarWhats">📲 Enviar confirmação no WhatsApp</a>
+  <a class="btn creditobtn" style="background:#444;color:#fff;" href="javascript:fecharConfirm();">❌ Voltar</a>
 </div>
+
+<script>
+function abrirConfirmacao(){
+    let nome = document.getElementById("nome").value;
+    if(!nome){ alert("Digite o nome para reserva!"); return; }
+
+    let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
+    let totalVagas = qtdAdulto + qtdCrianca;
+
+    let resumo = `👤 Nome(s): ${nome}<br>🎟️ Vagas: ${totalVagas}<br>💰 Total: R$ ${total}`;
+    document.getElementById("confResumo").innerHTML = resumo;
+
+    document.getElementById("confirmTela").style.display = "block";
+    window.scrollTo({top:0,behavior:'smooth'});
+
+    let msg = `Olá, segue minha reserva para a Lagoa Azul:%0A%0A👤 Nome(s): ${nome}%0A🎟️ Vagas: ${totalVagas}%0A💰 Total: R$ ${total}%0A📎 Segue o comprovante.`;
+
+    document.getElementById("btnConfirmarWhats").href = "https://wa.me/5566996926174?text=" + msg;
+}
+
+function fecharConfirm(){
+    document.getElementById("confirmTela").style.display = "none";
+}
+</script>
 
 <script>atualizar();</script>
 </body>
