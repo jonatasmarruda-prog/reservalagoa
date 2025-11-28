@@ -303,12 +303,12 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
   <h2 style="text-align:center;color:#00ff95;">✨ Confirmar Reserva</h2>
   <p id="confResumo" style="font-size:18px;color:#ccc;text-align:center;margin-bottom:20px;"></p>
 
-  <a class="btn wabtn" id="btnConfirmarWhats">📲 Enviar confirmação no WhatsApp</a>
+  <a class="btn wabtn" id="btnConfirmarWhats" onclick="salvarReservaFirebase()">📲 Enviar confirmação no WhatsApp</a>
   <a class="btn creditobtn" style="background:#444;color:#fff;" href="javascript:fecharConfirm();">❌ Voltar</a>
 </div>
 
 <script>
-function abrirConfirmacao(){
+function abrirConfirmacao()(){
     let nome = document.getElementById("nome").value;
     if(!nome){ alert("Digite o nome para reserva!"); return; }
 
@@ -331,6 +331,15 @@ function fecharConfirm(){
 }
 </script>
 
-<script>atualizar();</script>
+<script>atualizar();function salvarReservaFirebase(){
+    let nome = document.getElementById("nome").value;
+    let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
+    let totalVagas = qtdAdulto + qtdCrianca;
+    let pagamento = document.getElementById("selectPagamento").value;
+    if(!pagamento) pagamento = "N/I";
+
+    registrarReserva(totalVagas, nome, total, pagamento);
+}
+</script>
 </body>
 </html>
