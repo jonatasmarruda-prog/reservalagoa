@@ -1,75 +1,218 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Reserva - Lagoa Azul | Trilheiros</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reserva - Lagoa Azul</title>
+
 <style>
-:root{--accent:#0ea5a0;--bg:#fbfbfb;--card:#fff}
-body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;line-height:1.5;background:var(--bg);color:#0b1220;margin:0;padding:24px}
-.container{max-width:980px;margin:0 auto}
-header{display:flex;align-items:center;gap:16px}
-h1{font-size:28px;margin:0}
-.card{background:var(--card);border-radius:12px;box-shadow:0 6px 18px rgba(12,18,26,0.06);padding:18px;margin-top:18px}
-.grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
-label{display:block;margin:8px 0 6px;font-weight:600}
-input[type=number],select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ee}
-button{background:var(--accent);color:#fff;border:0;padding:12px 14px;border-radius:10px;font-weight:700;cursor:pointer}
-.muted{color:#536070;font-size:14px}
-.meta{display:flex;gap:12px;flex-wrap:wrap}
-.pill{background:#eef7f6;padding:8px 10px;border-radius:999px;font-weight:700}
-.soldout{background:#ffdede;color:#9b1b1b;padding:10px;border-radius:8px}
-.small{font-size:13px}
-.footer{margin-top:18px;font-size:13px;color:#425165}
-.countdown{display:flex;gap:10px}
-.countdown span{background:#fff;padding:10px;border-radius:8px;min-width:56px;text-align:center;font-weight:700}
-.items-list{display:flex;flex-direction:column;gap:6px;margin-top:6px}
-.note{background:#fffbe6;padding:10px;border-radius:8px}
-.total{font-size:20px;font-weight:800;margin-top:8px}
-.danger{color:#a91b1b}
-@media(max-width:880px){
-body{padding:10px;}
-.grid{grid-template-columns:1fr;}
-header{flex-direction:column;text-align:center;}
-#heroImg{width:100%;height:180px;border-radius:14px;}
-h1{font-size:22px;}
-.card{padding:14px;}
-button{width:100%;}
-#cardHighlight{position:relative;top:0;margin-top:14px;}
-}.card{padding:14px}}
+body {
+    background: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    padding: 15px;
+}
+.logo {
+    display: block;
+    width: 150px;
+    margin: 15px auto;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+}
+.card {
+    background: #1c1c1c;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+.card img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+.descricao { font-size: 16px; color: #ccc; margin-bottom: 8px; }
+.legenda { font-size: 14px; color: #aaa; margin-bottom: 12px; }
+h2 { margin-top: 0; font-size: 22px; }
+label { display: block; margin-top: 12px; font-size: 18px; }
+input, select {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 5px;
+    background: #2a2a2a;
+    color: #fff;
+}
+
+.contador {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+}
+.contador button {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #2a2a2a;
+    color: #fff;
+}
+.contador span {
+    font-size: 20px;
+    font-weight: bold;
+    width: 50px;
+    text-align: center;
+}
+
+a.btn {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    padding: 16px;
+    border-radius: 12px;
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+a.pixbtn { background: #00c853; color: black; }
+a.creditobtn { background: #1976d2; color: white; }
+a.wabtn { background: #25d366; color: black; }
+
+.total, .vagas-restantes, .mensagem { font-size: 22px; margin-top: 10px; font-weight: bold; text-align: center; }
+.mensagem { font-size: 16px; color: #ff5252; margin-top: 8px; }
+@media(max-width:600px){
+  .container{padding:10px;}
+  .logo{width:120px;}
+  h2{font-size:20px;}
+  .card{padding:16px;}
+  input,select{font-size:16px;padding:12px;}
+  .contador button{width:44px;height:44px;font-size:22px;}
+  .contador span{font-size:20px;}
+  a.btn{font-size:16px;padding:14px;}
+  .total, .vagas-restantes{font-size:20px;}
+  .descricao{font-size:15px;}
+}
 </style>
+
+<script>
+let PRECOS = { adulto: 332, crianca: 282 };
+let vagasTotais = 28;
+let vagasReservadas = 0;
+let qtdAdulto = 1;
+let qtdCrianca = 0;
+
+function atualizar() {
+    let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
+    let totalVagas = qtdAdulto + qtdCrianca;
+    let restantes = vagasTotais - vagasReservadas - totalVagas;
+
+    if (restantes < 0) {
+        document.getElementById("mensagem").innerText = "Vagas esgotadas para este número de reservas";
+        document.getElementById("total").innerText = "Total indisponível";
+        document.getElementById("pixbtn").style.display = "none";
+        document.getElementById("cardbtn").style.display = "none";
+        return;
+    }
+
+    document.getElementById("mensagem").innerText = "";
+    document.getElementById("total").innerText = "Total R$ " + total;
+    document.getElementById("vagasRest").innerText = "Vagas restantes: " + restantes;
+
+    // PIX
+    document.getElementById("pixbtn").href = "javascript:copiarPix('trilheiros.roomt')";
+
+    // Cartão
+    document.getElementById("cardbtn").href = "https://link.mercadopago.com.br/trilheirosderoo";
+}
+
+function aumentar(tipo) {
+    if (tipo === 'adulto') qtdAdulto++;
+    else qtdCrianca++;
+    atualizar();
+}
+function diminuir(tipo) {
+    if (tipo === 'adulto' && qtdAdulto > 1) qtdAdulto--;
+    if (tipo === 'crianca' && qtdCrianca > 0) qtdCrianca--;
+    atualizar();
+}
+
+function copiarPix(chave) {
+    navigator.clipboard.writeText(chave);
+    alert("Chave PIX copiada: " + chave);
+}
+
+function enviarWhatsApp() {
+    let nome = document.getElementById("nome").value;
+    if (!nome) {
+        alert("Digite seu nome completo!");
+        return;
+    }
+
+    let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
+    let totalVagas = qtdAdulto + qtdCrianca;
+
+    let msg = `Olá, meu nome é ${nome}.\nReservei ${totalVagas} vaga(s) para a Lagoa Azul.\nValor total: R$ ${total}.\nSegue comprovante.`;
+
+    window.open("https://wa.me/5566996926174?text=" + encodeURIComponent(msg), "_blank");
+}
+</script>
 </head>
 <body>
 <div class="container">
-<header>
-<img src="https://imgur.com/e2c5e929-cdb2-4f42-89e4-dcebdff79881" alt="Logo Trilheiros" style="width:80px;height:80px;border-radius:12px;object-fit:cover">
-<img src="" alt="Lagoa Azul" id="heroImg" src="https://i.imgur.com/aZCi6df.jpeg" alt="Lagoa Azul" style="width:86px;height:86px;border-radius:10px;object-fit:cover">
-<div>
-<h1>Dia de viver a magia da Lagoa Azul! 💙✨</h1>
-<div class="muted">21 de dezembro de 2025 • Primavera do Leste, MT</div>
-</div>
-</header>
-
-
-<div class="card grid">
-<section>
-<h3>Sobre o passeio</h3>
-<p>Rumo à Primavera do Leste para aproveitar águas cristalinas, natureza e muita energia boa. Um dia perfeito para relaxar, renovar as energias e encerrar o ano com uma experiência inesquecível.</p>
-
+<img src="https://i.imgur.com/MwHr761.png" class="logo">
 
 <div class="card">
-<strong>Incluso no passeio</strong>
-<div class="items-list">
-<div>🚐 Transporte ida e volta</div>
-<div>🤿 Snorkel</div>
-<div>🦺 Colete salva-vidas</div>
-<div>🛡️ Seguro de vida</div>
-<div>😄 Muita diversão e aventura</div>
-</div>
+<img src="https://i.imgur.com/aZCi6df.jpeg">
+
+<div class="descricao">
+A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lindos de Mato Grosso.
 </div>
 
+<h2>Lagoa Azul – Primavera do Leste</h2>
+<p>Data: 21 de dezembro</p>
 
-<div style="margin-top:10px">
-<strong>Valores</strong>
-<ul>
-<li>R$ 332,00 — Adulto (com transporte)</li>
+<label>Nome completo</label>
+<input id="nome" placeholder="Digite seu nome completo" style="height:48px;">
+
+<label>Adultos</label>
+<div class="contador">
+<button onclick="diminuir('adulto')">-</button>
+<span id="ad">1</span>
+<button onclick="aumentar('adulto')">+</button>
+</div>
+
+<label>Crianças até 10 anos</label>
+<div class="contador">
+<button onclick="diminuir('crianca')">-</button>
+<span id="cr">0</span>
+<button onclick="aumentar('crianca')">+</button>
+</div>
+
+<p id="total" class="total">Total R$ 332</p>
+<p id="vagasRest" class="vagas-restantes">Vagas restantes: 28</p>
+<p id="mensagem" class="mensagem"></p>
+
+<a id="pixbtn" class="btn pixbtn">Pagar no PIX</a>
+<a id="cardbtn" class="btn creditobtn" target="_blank">Pagar no cartão</a>
+<a class="btn wabtn" href="javascript:enviarWhatsApp()">Após pagamento, enviar comprovante</a>
+</div>
+
+</div>
+
+<script>atualizar();</script>
+</body>
+</html>
