@@ -1,1 +1,5 @@
-background: url('https://i.imgur.com/DGBIX8g.jpeg') center/cover no-repeat;
+.banner {
+    height: 300px;
+    background: url('https://i.imgur.com/DGBIX8g.jpeg') center/cover no-repeat;
+    position: relative;
+}
