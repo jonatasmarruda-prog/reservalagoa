@@ -3,19 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Passeio Lagoa Azul - 21/12</title>
+
+<title>Reserva – Passeio Lagoa Azul</title>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
     body {
         margin: 0;
         padding: 0;
-        font-family: Arial, sans-serif;
-        background: #111;    /* fundo escuro */
-        color: #fff;         /* textos brancos */
+        font-family: 'Inter', sans-serif;
+        background: #0d0d0d;
+        color: #fff;
+    }
+
+    header {
+        background: #111;
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #222;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .banner {
+        position: relative;
+        width: 100%;
+        height: 280px;
+        background: url('./imagens/lagoaazul.png') center/cover no-repeat;
+        border-bottom: 3px solid #25D366;
+    }
+
+    .banner-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.35);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .banner h1 {
+        font-size: 28px;
+        font-weight: 700;
+        text-shadow: 0 4px 14px black;
+        text-align: center;
+        padding: 0 15px;
     }
 
     .container {
-        max-width: 480px;
+        max-width: 500px;
         margin: auto;
         padding: 20px;
     }
@@ -23,105 +61,169 @@
     .card {
         background: #1a1a1a;
         padding: 20px;
-        border-radius: 14px;
-        box-shadow: 0 0 12px rgba(255,255,255,0.05);
-    }
-
-    h2 {
-        text-align: center;
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-
-    img {
-        width: 100%;
-        border-radius: 12px;
-        margin-bottom: 20px;
-    }
-
-    button, a.button {
-        width: 100%;
-        display: block;
-        text-align: center;
-        padding: 14px;
-        border-radius: 10px;
-        font-size: 18px;
-        margin-bottom: 12px;
-        font-weight: bold;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .pix {
-        background: #00b894;
-        color: #fff;
-        border: none;
-    }
-
-    .cartao {
-        background: #0984e3;
-        color: #fff;
-    }
-
-    .whats {
-        background: #25D366;
-        color: #fff;
+        border-radius: 16px;
+        margin-top: -25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.4);
     }
 
     .info {
-        margin-bottom: 20px;
-        font-size: 16px;
-        line-height: 1.5;
+        background: #111;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        line-height: 1.6;
+        font-size: 15px;
+        border: 1px solid #222;
     }
+
+    .info strong { color: #25D366; }
+
+    label {
+        font-size: 14px;
+        font-weight: 600;
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        background: #000;
+        color: #fff;
+        border: 1px solid #333;
+        margin-bottom: 10px;
+        font-size: 15px;
+        outline: none;
+    }
+
+    .button {
+        width: 100%;
+        padding: 15px;
+        margin-top: 15px;
+        border-radius: 12px;
+        font-size: 17px;
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+        display: none;
+        transition: 0.2s;
+    }
+
+    .button:hover {
+        opacity: 0.85;
+        transform: scale(1.01);
+    }
+
+    .pix { background: #00b894; color: white; }
+    .cartao { background: #0984e3; color: white; }
+    .whats { background: #25D366; color: white; }
+
 </style>
 </head>
 
 <body>
 
+<header>Trilheiros ROOMT</header>
+
+<div class="banner">
+    <div class="banner-overlay">
+        <h1>Lagoa Azul – 21 de Dezembro</h1>
+    </div>
+</div>
+
 <div class="container">
     <div class="card">
 
-        <!-- IMAGEM DO PASSEIO -->
-        <!-- Trocar o caminho abaixo pela sua imagem -->
-        <img src="./imagens/lagoaazul.jpg" alt="Lagoa Azul">
-
-        <h2>Passeio Lagoa Azul – 21/12</h2>
-
         <div class="info">
-            28 vagas disponíveis.<br><br>
             <strong>Incluso:</strong><br>
             • Transporte ida e volta<br>
-            • Snorkel<br>
-            • Colete salva-vidas<br>
+            • Snorkel + Colete salva-vidas<br>
             • Seguro de vida<br>
-            • Muita diversão e aventura! 😄<br><br>
+            • Muita diversão e aventura<br><br>
 
             <strong>Valores:</strong><br>
-            • R$ 332,00 via Pix<br>
-            • R$ 339,00 cartão<br>
-            • R$ 282,00 crianças até 10 anos<br>
-            • R$ 220,00 veículo próprio
+            • Pix: R$ 332<br>
+            • Cartão: R$ 339<br>
+            • Crianças até 10 anos: R$ 282<br>
+            • Veículo próprio: R$ 220<br>
         </div>
 
-        <!-- BOTÃO PIX -->
-        <button class="pix" onclick="navigator.clipboard.writeText('SUA_CHAVE_PIX'); alert('Chave PIX copiada!')">
+        <label>Seu nome:</label>
+        <input type="text" id="nome" placeholder="Digite seu nome completo">
+
+        <label>Quantidade de vagas:</label>
+        <select id="vagas">
+            <option value="" disabled selected>Selecione...</option>
+            <option value="1">1 vaga</option>
+            <option value="2">2 vagas</option>
+            <option value="3">3 vagas</option>
+        </select>
+
+        <label>Forma de pagamento:</label>
+        <select id="pagamento" onchange="mostrarPagamento()">
+            <option value="" disabled selected>Selecione...</option>
+            <option value="pix">Pix</option>
+            <option value="cartao">Cartão de Crédito</option>
+        </select>
+
+        <button class="button pix" id="btnPix"
+            onclick="navigator.clipboard.writeText('SUA_CHAVE_PIX'); alert('Chave PIX copiada!');">
             💸 Copiar chave Pix
         </button>
 
-        <!-- BOTÃO CARTÃO -->
-        <a class="cartao button" href="LINK_CARTAO" target="_blank">
+        <a class="button cartao" id="btnCartao"
+           href="https://mpago.li/21wuNLV" target="_blank">
             💳 Pagar no Cartão
         </a>
 
-        <!-- BOTÃO WHATSAPP COMPLETO -->
-        <a class="whats button"
-           target="_blank"
-           href="https://wa.me/5566996926174?text=Ol%C3%A1!%20Meu%20nome%20%C3%A9%20%5BSeu%20Nome%5D.%20Segue%20minha%20reserva%20e%20comprovante.%0A%0AValor%20pago:%20%5Binformar%5D%0AQuantidade%20de%20vagas:%20%5Binformar%5D%0APasseio:%20Lagoa%20Azul%20-%2021%2F12">
-            📲 Enviar Comprovante no WhatsApp
+        <a class="button whats" id="btnWhats" href="#" target="_blank">
+            📲 Enviar comprovante no WhatsApp
         </a>
 
     </div>
 </div>
+
+<script>
+function mostrarPagamento() {
+    const nome = document.getElementById("nome").value.trim();
+    const vagas = document.getElementById("vagas").value;
+    const tipo = document.getElementById("pagamento").value;
+
+    if (!nome) {
+        alert("Digite seu nome antes.");
+        document.getElementById("pagamento").value = "";
+        return;
+    }
+    if (!vagas) {
+        alert("Escolha a quantidade de vagas.");
+        document.getElementById("pagamento").value = "";
+        return;
+    }
+
+    document.getElementById("btnPix").style.display = "none";
+    document.getElementById("btnCartao").style.display = "none";
+
+    if (tipo === "pix") document.getElementById("btnPix").style.display = "block";
+    if (tipo === "cartao") document.getElementById("btnCartao").style.display = "block";
+
+    const mensagem =
+`Olá! Meu nome é ${nome}.
+Segue minha reserva e comprovante.
+
+Vagas: ${vagas}
+Pagamento: ${tipo.toUpperCase()}
+Passeio: Lagoa Azul – 21/12
+
+Obrigado!`;
+
+    const url = "https://wa.me/5566996926174?text=" + encodeURIComponent(mensagem);
+
+    document.getElementById("btnWhats").href = url;
+    document.getElementById("btnWhats").style.display = "block";
+}
+</script>
 
 </body>
 </html>
