@@ -53,60 +53,35 @@ input, select {
     color: #fff;
 }
 
-.contador {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 6px;
-}
-.contador button {
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
+.total, .vagas-restantes, .mensagem {
+    font-size: 22px;
+    margin-top: 10px;
     font-weight: bold;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    background: #2a2a2a;
-    color: #fff;
-}
-.contador span {
-    font-size: 20px;
-    font-weight: bold;
-    width: 50px;
     text-align: center;
 }
 
-a.btn{display:block;text-decoration:none;text-align:center;padding:16px;border-radius:14px;margin-top:16px;font-size:18px;font-weight:bold;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,0.4),0 8px 18px rgba(0,0,0,0.6);transition:0.2s;}
-a.btn:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,0.4);} {
-    display: block;
-    text-decoration: none;
-    text-align: center;
-    padding: 16px;
-    border-radius: 12px;
-    margin-top: 16px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+/* Botões */
+a.btn{
+  display:block;
+  text-decoration:none;
+  text-align:center;
+  padding:16px;
+  border-radius:14px;
+  margin-top:16px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 6px 0 rgba(0,0,0,0.4),0 8px 18px rgba(0,0,0,0.6);
+  transition:0.2s;
 }
-a.pixbtn { background: #00c853; color: black; }
-a.creditobtn { background: #1976d2; color: white; }
-a.wabtn { background: #25d366; color: black; }
+a.btn:active{
+  transform:translateY(3px);
+  box-shadow:0 3px 0 rgba(0,0,0,0.4);
+}
+a.pixbtn{background:#00c853;color:black;}
+a.creditobtn{background:#1976d2;color:white;}
+a.wabtn{background:#25d366;color:black;}
 
-.total, .vagas-restantes, .mensagem { font-size: 22px; margin-top: 10px; font-weight: bold; text-align: center; }
-.mensagem { font-size: 16px; color: #ff5252; margin-top: 8px; }
-@media(max-width:600px){
-  .container{padding:10px;}
-  .logo{width:120px;}
-  h2{font-size:20px;}
-  .card{padding:16px;}
-  input,select{font-size:16px;padding:12px;}
-  .contador button{width:44px;height:44px;font-size:22px;}
-  .contador span{font-size:20px;}
-  a.btn{font-size:16px;padding:14px;}
-  .total, .vagas-restantes{font-size:20px;}
-  .descricao{font-size:15px;}
-}
 </style>
 
 <script>
@@ -136,66 +111,45 @@ function mostrarPagamento(){
   }
 }
 
-function atualizar() {
-    let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
-    let totalVagas = qtdAdulto + qtdCrianca;
-    let restantes = vagasTotais - vagasReservadas - totalVagas;
+function atualizar(){
+  let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
+  let totalVagas = qtdAdulto + qtdCrianca;
+  let restantes = vagasTotais - vagasReservadas - totalVagas;
 
-    if (restantes < 0) {
-        document.getElementById("mensagem").innerText = "Vagas esgotadas para este número de reservas";
-        document.getElementById("total").innerText = "Total indisponível";
-        document.getElementById("pixbtn").style.display = "none";
-        document.getElementById("cardbtn").style.display = "none";
-        return;
-    }
+  if(restantes < 0){
+    document.getElementById("mensagem").innerText = "Vagas esgotadas para este número de reservas";
+    document.getElementById("total").innerText = "Total indisponível";
+    document.getElementById("pixbtn").style.display = "none";
+    document.getElementById("cardbtn").style.display = "none";
+    return;
+  }
 
-    document.getElementById("mensagem").innerText = "";
-    document.getElementById("total").innerText = "Total R$ " + total;
-    document.getElementById("vagasRest").innerText = "Vagas restantes: " + restantes;
-
-    // PIX
-    document.getElementById("pixbtn").href = "javascript:copiarPix('trilheiros.roomt@gmail.com')";
-
-    // Cartão
-    document.getElementById("cardbtn").href = "https://link.mercadopago.com.br/trilheirosderoo";
+  document.getElementById("mensagem").innerText = "";
+  document.getElementById("total").innerText = "Total R$ " + total;
+  document.getElementById("vagasRest").innerText = "Vagas restantes: " + restantes;
 }
 
-function aumentar(tipo) {
-    if (tipo === 'adulto') qtdAdulto++;
-    else qtdCrianca++;
-    atualizar();
-}
-function diminuir(tipo) {
-    if (tipo === 'adulto' && qtdAdulto > 1) qtdAdulto--;
-    if (tipo === 'crianca' && qtdCrianca > 0) qtdCrianca--;
-    atualizar();
-}
+function copiarPix(chave){ navigator.clipboard.writeText(chave); alert("Chave PIX copiada: " + chave); }
 
-function copiarPix(chave) {
-    navigator.clipboard.writeText(chave);
-    alert("Chave PIX copiada: " + chave);
-}
+function enviarWhatsApp(){
+  let nome = document.getElementById("nome").value;
+  if(!nome){ alert("Digite seu nome completo!"); return; }
 
-function enviarWhatsApp() {
-    let nome = document.getElementById("nome").value;
-    if (!nome) {
-        alert("Digite seu nome completo!");
-        return;
-    }
+  let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
+  let totalVagas = qtdAdulto + qtdCrianca;
 
-    let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
-    let totalVagas = qtdAdulto + qtdCrianca;
-
-    let msg = `Olá! Seguem os dados da minha reserva para a Lagoa Azul:
+  let msg = `Olá! Seguem os dados da minha reserva para a Lagoa Azul:
 
 👤 *Nome(s): ${nome}*
 🎟️ Vagas: ${totalVagas}
 💰 Valor total: R$ ${total}
-📎 Segue o comprovante em anexo.`;
+📎 Segue o comprovante.`;
 
-    window.open("https://wa.me/5566996926174?text=" + encodeURIComponent(msg), "_blank");
+  window.open("https://wa.me/5566996926174?text=" + encodeURIComponent(msg), "_blank");
 }
 </script>
+
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
 <script>
@@ -212,7 +166,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// --- Sistema de contador real SOMANDO TODAS AS RESERVAS AUTOMATICAMENTE ---
 function atualizarContadorRealtime(){
   db.ref("reservas").on("value", snap => {
     let dados = snap.val();
@@ -241,25 +194,22 @@ function registrarReserva(totalVagas, nome, totalValor, pagamento){
 }
 </script>
 </head>
-<body>
+<body onload="atualizarContadorRealtime(); atualizar();">
+
 <div class="container">
 <img src="https://i.imgur.com/MwHr761.png" class="logo">
 
 <div class="card">
 <img src="https://i.imgur.com/aZCi6df.jpeg">
 
-<div class="descricao">
-A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lindos de Mato Grosso.
-</div>
-
 <h2>Lagoa Azul – Primavera do Leste</h2>
 <p>Data: 21 de dezembro</p>
 
 <label>Nome para reserva</label>
-<input id="nome" placeholder="Digite todos os nomes da reserva""Digite seu nome completo" style="height:48px;">
+<input id="nome" placeholder="Digite todos os nomes da reserva">
 
 <label>Adultos</label>
-<select id="adultoSelect" onchange="selecionarAdulto()" style="width:100%;padding:14px;font-size:18px;border-radius:8px;border:none;background:#2a2a2a;color:#fff;">
+<select id="adultoSelect" onchange="selecionarAdulto()">
   <option value="1">1 vaga</option>
   <option value="2">2 vagas</option>
   <option value="3">3 vagas</option>
@@ -268,80 +218,6 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
 </select>
 
 <label>Crianças até 10 anos</label>
-<select id="criancaSelect" onchange="selecionarCrianca()" style="width:100%;padding:14px;font-size:18px;border-radius:8px;border:none;background:#2a2a2a;color:#fff;">
-  <option value="0">0 vaga</option>
-  <option value="1">1 vaga</option>
-  <option value="2">2 vagas</option>
-  <option value="3">3 vagas</option>
-  <option value="4">4 vagas</option>
-  <option value="5">5 vagas</option>
-</select>
-
-<p id="total" class="total">Total R$ 332</p>
-<p id="vagasRest" class="vagas-restantes">Vagas restantes: 28</p>
-<p id="mensagem" class="mensagem"></p>
-
-<div id="formasPagamento" style="margin-top:20px; text-align:center;">
-  <label style="font-size:20px; font-weight:bold;">Qual forma de pagamento?</label>
-  <select id="selectPagamento" onchange="mostrarPagamento()" style="width:100%;padding:14px;font-size:18px;border-radius:8px;border:none;background:#2a2a2a;color:#fff;margin-top:10px;">
-    <option value="">Selecione...</option>
-    <option value="PIX">🔥 PIX (recomendado)</option>
-    <option value="CREDITO">💳 Cartão de Crédito</option>
-  </select>
-  <p id="infoPagamento" style="display:none;font-size:16px;color:#00e676;margin-top:12px;font-weight:bold;">
-    ✔ Após realizar o pagamento, clique abaixo para confirmar sua reserva e enviar o comprovante.
-  </p>
-</div>
-
-<a id="pixbtn" class="btn pixbtn" style="display:none;">⚡ Copiar chave PIX</a>
-<a id="cardbtn" class="btn creditobtn" target="_blank" style="display:none;">💳 Pagar no cartão</a>
-<a class="btn wabtn" href="javascript:enviarWhatsApp()">Após pagamento, enviar comprovante</a>
-</div>
-
-<!-- TELA DE CONFIRMAÇÃO -->
-<div id="confirmTela" class="card" style="display:none;background:#0f0f0f;border:2px solid #00c853;">
-  <h2 style="text-align:center;color:#00ff95;">✨ Confirmar Reserva</h2>
-  <p id="confResumo" style="font-size:18px;color:#ccc;text-align:center;margin-bottom:20px;"></p>
-
-  <a class="btn wabtn" id="btnConfirmarWhats" onclick="salvarReservaFirebase()">📲 Enviar confirmação no WhatsApp</a>
-  <a class="btn creditobtn" style="background:#444;color:#fff;" href="javascript:fecharConfirm();">❌ Voltar</a>
-</div>
-
-<script>
-function abrirConfirmacao()(){
-    let nome = document.getElementById("nome").value;
-    if(!nome){ alert("Digite o nome para reserva!"); return; }
-
-    let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
-    let totalVagas = qtdAdulto + qtdCrianca;
-
-    let resumo = `👤 *Nome(s): ${nome}*<br>🎟️ Vagas: ${totalVagas}<br>💰 Total: R$ ${total}`;
-    document.getElementById("confResumo").innerHTML = resumo;
-
-    document.getElementById("confirmTela").style.display = "block";
-    window.scrollTo({top:0,behavior:'smooth'});
-
-    let msg = `Olá, segue minha reserva para a Lagoa Azul:%0A%0A👤 *Nome(s): ${nome}*%0A🎟️ Vagas: ${totalVagas}%0A💰 Total: R$ ${total}%0A📎 Segue o comprovante.`;
-
-    document.getElementById("btnConfirmarWhats").href = "https://wa.me/5566996926174?text=" + msg;
-}
-
-function fecharConfirm(){
-    document.getElementById("confirmTela").style.display = "none";
-}
-</script>
-
-<script>atualizar();function salvarReservaFirebase(){
-    let nome = document.getElementById("nome").value;
-    let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
-    let totalVagas = qtdAdulto + qtdCrianca;
-    let pagamento = document.getElementById("selectPagamento").value;
-    if(!pagamento) pagamento = "N/I";
-
-    registrarReserva(totalVagas, nome, total, pagamento);
-}
-</script>
-</body>
-</html>
-
+<select id="criancaSelect" onchange="selecionarCrianca()">
+  <option value="0">0 vaga
 
