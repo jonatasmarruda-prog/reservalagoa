@@ -188,7 +188,7 @@ function enviarWhatsApp() {
 
     let msg = `Olá! Seguem os dados da minha reserva para a Lagoa Azul:
 
-👤 Nome(s): ${nome}
+👤 *Nome(s): ${nome}*
 🎟️ Vagas: ${totalVagas}
 💰 Valor total: R$ ${total}
 📎 Segue o comprovante em anexo.`;
@@ -315,13 +315,13 @@ function abrirConfirmacao()(){
     let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
     let totalVagas = qtdAdulto + qtdCrianca;
 
-    let resumo = `👤 Nome(s): ${nome}<br>🎟️ Vagas: ${totalVagas}<br>💰 Total: R$ ${total}`;
+    let resumo = `👤 *Nome(s): ${nome}*<br>🎟️ Vagas: ${totalVagas}<br>💰 Total: R$ ${total}`;
     document.getElementById("confResumo").innerHTML = resumo;
 
     document.getElementById("confirmTela").style.display = "block";
     window.scrollTo({top:0,behavior:'smooth'});
 
-    let msg = `Olá, segue minha reserva para a Lagoa Azul:%0A%0A👤 Nome(s): ${nome}%0A🎟️ Vagas: ${totalVagas}%0A💰 Total: R$ ${total}%0A📎 Segue o comprovante.`;
+    let msg = `Olá, segue minha reserva para a Lagoa Azul:%0A%0A👤 *Nome(s): ${nome}*%0A🎟️ Vagas: ${totalVagas}%0A💰 Total: R$ ${total}%0A📎 Segue o comprovante.`;
 
     document.getElementById("btnConfirmarWhats").href = "https://wa.me/5566996926174?text=" + msg;
 }
@@ -343,4 +343,5 @@ function fecharConfirm(){
 </script>
 </body>
 </html>
+
 
