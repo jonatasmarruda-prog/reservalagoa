@@ -71,8 +71,6 @@ a.wabtn { background:#25d366; color:black; }
 
 <script>
 let PRECOS = { adulto: 332, crianca: 282 };
-let vagasTotais = 28;
-let vagasReservadas = 0;
 
 let qtdAdulto = 1;
 let qtdCrianca = 0;
@@ -104,12 +102,18 @@ function atualizar(){
 
     document.getElementById("mensagem").innerText = "";
     document.getElementById("total").innerText = "Total R$ " + total;
+
+    // PIX
+    document.getElementById("pixbtn").href = "javascript:copiarPix('trilheiros.roomt@gmail.com')";
+
+    // CARTÃO AUTOMÁTICO COM VALOR DINÂMICO
+    document.getElementById("cardbtn").href =
+        "https://www.mercadopago.com.br/checkout/v1/redirect?amount=" + total;
 }
- 
+
 function copiarPix(chave){
-    navigator.clipboard.writeText(chave)
-    .then(() => { alert("Chave PIX copiada: " + chave); })
-    .catch(() => { alert("Não foi possível copiar automaticamente. Copie manualmente: " + chave); });
+    navigator.clipboard.writeText(chave);
+    alert("Chave PIX copiada: " + chave);
 }
 
 function enviarWhatsApp(){
@@ -147,22 +151,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-function atualizarContadorRealtime(){
-    db.ref("reservas").on("value", snap => {
-        let dados = snap.val();
-        let total = 0;
-
-        if(dados){
-            Object.values(dados).forEach(r => {
-                if(r.vagas) total += Number(r.vagas);
-            });
-        }
-
-        vagasReservadas = total;
-        atualizar();
-    });
-}
-
 function registrarReserva(totalVagas, nome, totalValor, pagamento){
     let id = Date.now();
     db.ref("reservas/" + id).set({
@@ -176,7 +164,7 @@ function registrarReserva(totalVagas, nome, totalValor, pagamento){
 </script>
 </head>
 
-<body onload="atualizarContadorRealtime()">
+<body onload="atualizar()">
 
 <div class="container">
 
@@ -229,15 +217,8 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
     </select>
 </div>
 
-<!-- PIX COPIA AO CLICAR -->
-<a id="pixbtn" class="btn pixbtn" style="display:none;"
-   onclick="copiarPix('trilheiros.roomt@gmail.com')">
-    ⚡ Copiar chave PIX
-</a>
-
-<a id="cardbtn" class="btn creditobtn" target="_blank" style="display:none;">
-    💳 Pagar no cartão
-</a>
+<a id="pixbtn" class="btn pixbtn" style="display:none;">⚡ Copiar chave PIX</a>
+<a id="cardbtn" class="btn creditobtn" target="_blank" style="display:none;">💳 Pagar no cartão</a>
 
 <a class="btn wabtn" href="javascript:enviarWhatsApp()">Após pagamento, enviar comprovante</a>
 
@@ -247,3 +228,4 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
 
 </body>
 </html>
+
