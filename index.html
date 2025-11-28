@@ -42,7 +42,10 @@ a.btn{
     box-shadow:0 6px 0 rgba(0,0,0,0.4),0 8px 18px rgba(0,0,0,0.6);
     transition:0.2s;
 }
-a.btn:active{ transform:translateY(3px); box-shadow:0 3px 0 rgba(0,0,0,0.4); }
+a.btn:active{
+    transform:translateY(3px);
+    box-shadow:0 3px 0 rgba(0,0,0,0.4);
+}
 
 a.pixbtn { background:#00c853; color:black; }
 a.creditobtn { background:#1976d2; color:white; }
@@ -61,8 +64,13 @@ a.wabtn { background:#25d366; color:black; }
 .totalCard { font-size:22px; color:#4da3ff; font-weight:bold; margin-top:6px; }
 .economia { font-size:18px; color:#ffeb3b; font-weight:bold; margin-top:12px; }
 
-.mensagem { font-size: 16px; color: #ff5252; text-align:center; }
-
+.mensagemCartao {
+    font-size:15px;
+    margin-top:10px;
+    color:#ffeb3b;
+    text-align:center;
+    display:none;
+}
 </style>
 
 <script>
@@ -102,9 +110,9 @@ function atualizarValores(){
     document.getElementById("pixbtn").href =
         "javascript:copiarPix('trilheiros.roomt@gmail.com')";
 
-    // CARTÃO
+    // CARTÃO (link fixo)
     document.getElementById("cardbtn").href =
-        "https://www.mercadopago.com.br/checkout/v1/redirect?amount=" + totalCard;
+        "https://mpago.li/2yrVFJQ";
 }
 
 function mostrarPagamento(){
@@ -112,9 +120,16 @@ function mostrarPagamento(){
 
     document.getElementById("pixbtn").style.display = "none";
     document.getElementById("cardbtn").style.display = "none";
+    document.getElementById("msgCartao").style.display = "none";
 
-    if(tipo === "PIX") document.getElementById("pixbtn").style.display = "block";
-    if(tipo === "CREDITO") document.getElementById("cardbtn").style.display = "block";
+    if(tipo === "PIX"){
+        document.getElementById("pixbtn").style.display = "block";
+    }
+
+    if(tipo === "CREDITO"){
+        document.getElementById("cardbtn").style.display = "block";
+        document.getElementById("msgCartao").style.display = "block";
+    }
 }
 
 function copiarPix(chave){
@@ -179,7 +194,6 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
     <option value="5">5 vagas</option>
 </select>
 
-<!-- BOX TOTAL -->
 <div class="totalBox">
     <div class="totalLabel">Total no PIX</div>
     <div id="totalPix" class="totalPix">R$ 332</div>
@@ -206,6 +220,12 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
 <a id="pixbtn" class="btn pixbtn" style="display:none;">⚡ Copiar chave PIX</a>
 <a id="cardbtn" class="btn creditobtn" target="_blank" style="display:none;">💳 Pagar no cartão</a>
 
+<!-- MENSAGEM DO CARTÃO -->
+<div id="msgCartao" class="mensagemCartao">
+⚠️ Este link é válido para <b>1 vaga adulta</b>.<br>
+Para reservar mais vagas no cartão, fale com <b>Jonatas</b> para gerar um link personalizado.
+</div>
+
 <a class="btn wabtn" href="javascript:enviarWhatsApp()">Após pagamento, enviar comprovante</a>
 
 </div>
@@ -213,3 +233,4 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
 
 </body>
 </html>
+
