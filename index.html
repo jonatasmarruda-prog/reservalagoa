@@ -212,17 +212,32 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// --- Sistema de contador real ---
+// --- Sistema de contador real SOMANDO TODAS AS RESERVAS AUTOMATICAMENTE ---
 function atualizarContadorRealtime(){
-  db.ref("reservas_total").on("value", snap => {
-    vagasReservadas = snap.val() || 0;
+  db.ref("reservas").on("value", snap => {
+    let dados = snap.val();
+    let total = 0;
+
+    if(dados){
+      Object.values(dados).forEach(r => {
+        if(r.vagas) total += Number(r.vagas);
+      });
+    }
+
+    vagasReservadas = total;
     atualizar();
   });
 }
 
-function registrarReserva(totalVagas){
-  const novaQtd = vagasReservadas + totalVagas;
-  db.ref("reservas_total").set(novaQtd);
+function registrarReserva(totalVagas, nome, totalValor, pagamento){
+  let id = Date.now();
+  db.ref("reservas/" + id).set({
+    nome: nome,
+    vagas: totalVagas,
+    total: totalValor,
+    pagamento: pagamento,
+    horario: new Date().toLocaleString("pt-BR")
+  });
 }
 </script>
 </head>
