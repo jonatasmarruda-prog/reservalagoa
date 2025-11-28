@@ -104,14 +104,12 @@ function atualizar(){
 
     document.getElementById("mensagem").innerText = "";
     document.getElementById("total").innerText = "Total R$ " + total;
-
-    document.getElementById("pixbtn").href = "javascript:copiarPix('trilheiros.roomt@gmail.com')";
-    document.getElementById("cardbtn").href = "https://link.mercadopago.com.br/trilheirosderoo";
 }
-
+ 
 function copiarPix(chave){
-    navigator.clipboard.writeText(chave);
-    alert("Chave PIX copiada: " + chave);
+    navigator.clipboard.writeText(chave)
+    .then(() => { alert("Chave PIX copiada: " + chave); })
+    .catch(() => { alert("Não foi possível copiar automaticamente. Copie manualmente: " + chave); });
 }
 
 function enviarWhatsApp(){
@@ -231,8 +229,15 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
     </select>
 </div>
 
-<a id="pixbtn" class="btn pixbtn" style="display:none;">⚡ Copiar chave PIX</a>
-<a id="cardbtn" class="btn creditobtn" target="_blank" style="display:none;">💳 Pagar no cartão</a>
+<!-- PIX COPIA AO CLICAR -->
+<a id="pixbtn" class="btn pixbtn" style="display:none;"
+   onclick="copiarPix('trilheiros.roomt@gmail.com')">
+    ⚡ Copiar chave PIX
+</a>
+
+<a id="cardbtn" class="btn creditobtn" target="_blank" style="display:none;">
+    💳 Pagar no cartão
+</a>
 
 <a class="btn wabtn" href="javascript:enviarWhatsApp()">Após pagamento, enviar comprovante</a>
 
