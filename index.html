@@ -108,11 +108,16 @@
 
 <div class="total" id="totalDisplay">Total: R$ 332,00</div>
 
-<div id="cardHighlight" style="position:sticky;top:10px;margin-top:12px;padding:14px;border-radius:10px;background:#fff3c4;border:2px solid #ffe08a;display:none;text-align:center;font-weight:700;font-size:18px;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,0.1)">
-  Digite este valor no cartão:<br>
-  <span id="cardValue" style="font-size:24px;color:#8a5d00"></span>
-  <br><button id="copyCardValue" style="margin-top:10px;padding:6px 12px;border-radius:8px;border:0;background:#8a5d00;color:white;font-weight:600;cursor:pointer">Copiar valor</button>
-  <div id="cardWarning" style="margin-top:10px;color:#b80000;font-size:14px;display:none">⚠️ Para mais de 2 vagas, confirme com Jonatas antes de pagar</div>
+<div id="cardHighlight" style="position:sticky;top:10px;margin-top:12px;padding:18px;border-radius:14px;background:linear-gradient(135deg,#fff7d1,#ffe59e);border:2px solid #ffdb70;display:none;text-align:center;font-weight:800;font-size:20px;z-index:20;box-shadow:0 4px 12px rgba(0,0,0,0.18);animation:pulseGlow 2s infinite">
+  💳 Valor para pagamento no cartão<br>
+  <span id="cardValue" style="font-size:28px;color:#8a5d00"></span>
+  <br>
+  <button id="copyCardValue" style="margin-top:14px;padding:10px 16px;border-radius:10px;border:0;background:#8a5d00;color:white;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.25)">📋 Copiar valor</button>
+  <div id="cardWarning" style="margin-top:10px;color:#b80000;font-size:15px;display:none;font-weight:700">⚠️ Para mais de 2 vagas, fale com Jonatas para gerar link do cartão</div>
+</div>
+<style>
+@keyframes pulseGlow{0%{box-shadow:0 0 6px #ffe08a;}50%{box-shadow:0 0 18px #ffcf52;}100%{box-shadow:0 0 6px #ffe08a;}}
+</style>
 </div>
 
           <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
@@ -369,4 +374,3 @@ btnSendWhats.addEventListener('click', () => {
   </script>
 </body>
 </html>
-
