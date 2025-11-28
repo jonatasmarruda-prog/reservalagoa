@@ -42,73 +42,79 @@ a.btn{
     box-shadow:0 6px 0 rgba(0,0,0,0.4),0 8px 18px rgba(0,0,0,0.6);
     transition:0.2s;
 }
-a.btn:active{
-    transform:translateY(3px);
-    box-shadow:0 3px 0 rgba(0,0,0,0.4);
-}
+a.btn:active{ transform:translateY(3px); box-shadow:0 3px 0 rgba(0,0,0,0.4); }
 
 a.pixbtn { background:#00c853; color:black; }
 a.creditobtn { background:#1976d2; color:white; }
 a.wabtn { background:#25d366; color:black; }
 
-.total, .mensagem {
-    font-size: 22px; margin-top: 10px;
-    font-weight: bold; text-align: center;
+.totalBox {
+    text-align:center;
+    margin-top:15px;
+    background:#222;
+    padding:12px;
+    border-radius:10px;
 }
-.mensagem { font-size: 16px; color: #ff5252; }
 
-@media(max-width:600px){
-    .container{padding:10px;}
-    .logo{width:120px;}
-    h2{font-size:20px;}
-    .card{padding:16px;}
-    input,select{font-size:16px;padding:12px;}
-    a.btn{font-size:16px;padding:14px;}
-    .total{font-size:20px;}
-    .descricao{font-size:15px;}
-}
+.totalLabel { font-size:18px; color:#ccc; }
+.totalPix { font-size:22px; color:#00e676; font-weight:bold; margin-top:6px; }
+.totalCard { font-size:22px; color:#4da3ff; font-weight:bold; margin-top:6px; }
+.economia { font-size:18px; color:#ffeb3b; font-weight:bold; margin-top:12px; }
+
+.mensagem { font-size: 16px; color: #ff5252; text-align:center; }
+
 </style>
 
 <script>
-let PRECOS = { adulto: 332, crianca: 282 };
+// PREÇO PIX
+let PRECOS_PIX = { adulto: 332, crianca: 282 };
+
+// PREÇO CARTÃO
+let PRECOS_CARTAO = { adulto: 339, crianca: 289 };
 
 let qtdAdulto = 1;
 let qtdCrianca = 0;
 
+// Seletores
 function selecionarAdulto(){
     qtdAdulto = Number(document.getElementById('adultoSelect').value);
-    atualizar();
+    atualizarValores();
 }
-
 function selecionarCrianca(){
     qtdCrianca = Number(document.getElementById('criancaSelect').value);
-    atualizar();
+    atualizarValores();
+}
+
+// Atualização total
+function atualizarValores(){
+    let totalPix = (qtdAdulto * PRECOS_PIX.adulto) + (qtdCrianca * PRECOS_PIX.crianca);
+    let totalCard = (qtdAdulto * PRECOS_CARTAO.adulto) + (qtdCrianca * PRECOS_CARTAO.crianca);
+
+    let economia = totalCard - totalPix;
+
+    document.getElementById("totalPix").innerText = "R$ " + totalPix;
+    document.getElementById("totalCartao").innerText = "R$ " + totalCard;
+
+    document.getElementById("economia").innerText =
+        "💰 Economize R$ " + economia + " pagando no PIX";
+
+    // PIX
+    document.getElementById("pixbtn").href =
+        "javascript:copiarPix('trilheiros.roomt@gmail.com')";
+
+    // CARTÃO
+    document.getElementById("cardbtn").href =
+        "https://www.mercadopago.com.br/checkout/v1/redirect?amount=" + totalCard;
 }
 
 function mostrarPagamento(){
     let tipo = document.getElementById("selectPagamento").value;
-    let pix = document.getElementById("pixbtn");
-    let card = document.getElementById("cardbtn");
 
-    pix.style.display = "none";
-    card.style.display = "none";
+    document.getElementById("pixbtn").style.display = "none";
+    document.getElementById("cardbtn").style.display = "none";
 
-    if(tipo === "PIX") pix.style.display = "block";
-    if(tipo === "CREDITO") card.style.display = "block";
-}
-
-function atualizar(){
-    let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
-
-    document.getElementById("mensagem").innerText = "";
-    document.getElementById("total").innerText = "Total R$ " + total;
-
-    // PIX
-    document.getElementById("pixbtn").href = "javascript:copiarPix('trilheiros.roomt@gmail.com')";
-
-    // CARTÃO AUTOMÁTICO COM VALOR DINÂMICO
-    document.getElementById("cardbtn").href =
-        "https://www.mercadopago.com.br/checkout/v1/redirect?amount=" + total;
+    if(tipo === "PIX") document.getElementById("pixbtn").style.display = "block";
+    if(tipo === "CREDITO") document.getElementById("cardbtn").style.display = "block";
 }
 
 function copiarPix(chave){
@@ -120,51 +126,21 @@ function enviarWhatsApp(){
     let nome = document.getElementById("nome").value;
     if (!nome){ alert("Digite seu nome completo!"); return; }
 
-    let total = (qtdAdulto * PRECOS.adulto) + (qtdCrianca * PRECOS.crianca);
+    let totalPix = (qtdAdulto * PRECOS_PIX.adulto) + (qtdCrianca * PRECOS_PIX.crianca);
     let totalVagas = qtdAdulto + qtdCrianca;
 
     let msg = `Olá! Seguem os dados da minha reserva para a Lagoa Azul:
 👤 *Nome(s): ${nome}*
 🎟️ Vagas: ${totalVagas}
-💰 Valor total: R$ ${total}
+💰 Valor total (PIX): R$ ${totalPix}
 📎 Segue o comprovante em anexo.`;
 
     window.open("https://wa.me/5566996926174?text=" + encodeURIComponent(msg), "_blank");
 }
 </script>
-
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
-
-<script>
-const firebaseConfig = {
-    apiKey: "AIzaSyDe3q92CKXOJUJ7vj2xmYlqKvlFirG4FMc",
-    authDomain: "reserva-lagoa-azul.firebaseapp.com",
-    databaseURL: "https://reserva-lagoa-azul-default-rtdb.firebaseio.com/",
-    projectId: "reserva-lagoa-azul",
-    storageBucket: "reserva-lagoa-azul.firebasestorage.app",
-    messagingSenderId: "681171703490",
-    appId: "1:681171703490:web:73fd26225e944966620d5b",
-    measurementId: "G-ZSDR07N74G"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-function registrarReserva(totalVagas, nome, totalValor, pagamento){
-    let id = Date.now();
-    db.ref("reservas/" + id).set({
-        nome: nome,
-        vagas: totalVagas,
-        total: totalValor,
-        pagamento: pagamento,
-        horario: new Date().toLocaleString("pt-BR")
-    });
-}
-</script>
 </head>
 
-<body onload="atualizar()">
+<body onload="atualizarValores()">
 
 <div class="container">
 
@@ -203,17 +179,27 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
     <option value="5">5 vagas</option>
 </select>
 
-<p id="total" class="total">Total R$ 332</p>
+<!-- BOX TOTAL -->
+<div class="totalBox">
+    <div class="totalLabel">Total no PIX</div>
+    <div id="totalPix" class="totalPix">R$ 332</div>
+
+    <div class="totalLabel" style="margin-top:14px;">Total no Cartão</div>
+    <div id="totalCartao" class="totalCard">R$ 339</div>
+
+    <div id="economia" class="economia">💰 Economize R$ 7 pagando no PIX</div>
+</div>
+
 <p id="mensagem" class="mensagem"></p>
 
-<div id="formasPagamento" style="margin-top:20px; text-align:center;">
+<div style="margin-top:20px; text-align:center;">
     <label style="font-size:20px; font-weight:bold;">Qual forma de pagamento?</label>
 
     <select id="selectPagamento" onchange="mostrarPagamento()"
         style="width:100%;padding:14px;font-size:18px;border-radius:8px;border:none;background:#2a2a2a;color:#fff;margin-top:10px;">
         <option value="">Selecione...</option>
-        <option value="PIX">🔥 PIX (recomendado)</option>
-        <option value="CREDITO">💳 Cartão de Crédito</option>
+        <option value="PIX">🔥 PIX</option>
+        <option value="CREDITO">💳 Cartão</option>
     </select>
 </div>
 
@@ -223,9 +209,7 @@ A magia da Lagoa Azul te espera no dia 21 de dezembro! Um dos cenários mais lin
 <a class="btn wabtn" href="javascript:enviarWhatsApp()">Após pagamento, enviar comprovante</a>
 
 </div>
-
 </div>
 
 </body>
 </html>
-
