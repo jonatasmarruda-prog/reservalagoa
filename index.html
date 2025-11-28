@@ -1,230 +1,324 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<title>Reserva – Passeio Lagoa Azul</title>
+<title>Trilheiros de Rondonópolis – Lagoa Azul 21 de Dezembro</title>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Inter', sans-serif;
-        background: #0d0d0d;
-        color: #fff;
-    }
+  :root {
+    --bg: #0d0d0d;
+    --card: #151515;
+    --muted: #bdbdbd;
+    --accent: #25D366;
+    --green: #00b894;
+    --blue: #0984e3;
+  }
 
-    header {
-        background: #111;
-        padding: 15px;
-        text-align: center;
-        border-bottom: 1px solid #222;
-        font-size: 20px;
-        font-weight: 700;
-    }
+  * { box-sizing: border-box; }
 
-    .banner {
-        position: relative;
-        width: 100%;
-        height: 280px;
-        background: url('./imagens/lagoaazul.png') center/cover no-repeat;
-        border-bottom: 3px solid #25D366;
-    }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: #fff;
+    font-family: "Inter", Arial;
+  }
 
-    .banner-overlay {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.35);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  header {
+    background: #0b0b0b;
+    padding: 16px;
+    border-bottom: 1px solid #1f1f1f;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 700;
+  }
 
-    .banner h1 {
-        font-size: 28px;
-        font-weight: 700;
-        text-shadow: 0 4px 14px black;
-        text-align: center;
-        padding: 0 15px;
-    }
+  header a {
+    background: var(--accent);
+    padding: 8px 14px;
+    border-radius: 10px;
+    color: #012;
+    text-decoration: none;
+    font-weight: 700;
+  }
 
-    .container {
-        max-width: 500px;
-        margin: auto;
-        padding: 20px;
-    }
+  .banner {
+    height: 300px;
+    background: url('./imagens/lagoaazul.png') center/cover no-repeat;
+    position: relative;
+    border-bottom: 3px solid var(--accent);
+  }
 
-    .card {
-        background: #1a1a1a;
-        padding: 20px;
-        border-radius: 16px;
-        margin-top: -25px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-    }
+  .banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+  }
 
-    .info {
-        background: #111;
-        padding: 15px;
-        border-radius: 12px;
-        margin-bottom: 25px;
-        line-height: 1.6;
-        font-size: 15px;
-        border: 1px solid #222;
-    }
+  .banner .txt {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .info strong { color: #25D366; }
+  .banner h1 {
+    padding: 0 20px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 26px;
+    text-shadow: 0 4px 12px black;
+  }
 
-    label {
-        font-size: 14px;
-        font-weight: 600;
-        display: block;
-        margin-top: 15px;
-        margin-bottom: 5px;
-    }
+  .wrapper {
+    max-width: 540px;
+    margin: -40px auto 40px;
+    padding: 0 16px;
+  }
 
-    input, select {
-        width: 100%;
-        padding: 12px;
-        border-radius: 10px;
-        background: #000;
-        color: #fff;
-        border: 1px solid #333;
-        margin-bottom: 10px;
-        font-size: 15px;
-        outline: none;
-    }
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  }
 
-    .button {
-        width: 100%;
-        padding: 15px;
-        margin-top: 15px;
-        border-radius: 12px;
-        font-size: 17px;
-        font-weight: 700;
-        text-align: center;
-        text-decoration: none;
-        display: none;
-        transition: 0.2s;
-    }
+  .info {
+    background: #0f0f0f;
+    padding: 14px;
+    border-radius: 12px;
+    line-height: 1.6;
+    border: 1px solid #222;
+    margin-bottom: 16px;
+  }
 
-    .button:hover {
-        opacity: 0.85;
-        transform: scale(1.01);
-    }
+  .info strong { color: var(--accent); }
 
-    .pix { background: #00b894; color: white; }
-    .cartao { background: #0984e3; color: white; }
-    .whats { background: #25D366; color: white; }
+  label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    display: block;
+  }
 
+  input, select {
+    width: 100%;
+    padding: 12px;
+    background: #000;
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .row { display: flex; gap: 10px; }
+  .col { flex: 1; }
+
+  .priceLine {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    font-size: 15px;
+  }
+
+  .total {
+    margin-top: 10px;
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .btn {
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 800;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .pix { background: var(--green); color: #012; display: none; }
+  .cart { background: var(--blue); color: #fff; display: none; }
+  .whats { background: var(--accent); color: #012; display: none; }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 20px;
+    padding: 0 16px;
+  }
+
+  @media(min-width:800px) {
+    .banner { height: 350px; }
+    .banner h1 { font-size: 32px; }
+  }
 </style>
 </head>
-
 <body>
 
-<header>Trilheiros ROOMT</header>
+<header>
+  Trilheiros de Rondonópolis
+  <a href="https://wa.me/5566996926174" target="_blank">WhatsApp</a>
+</header>
 
-<div class="banner">
-    <div class="banner-overlay">
-        <h1>Lagoa Azul – 21 de Dezembro</h1>
+<section class="banner">
+  <div class="txt">
+    <h1>Trilheiros de Rondonópolis – Lagoa Azul<br>21 de Dezembro</h1>
+  </div>
+</section>
+
+<main class="wrapper">
+  <div class="card">
+
+    <div class="info">
+      <strong>Incluso:</strong><br>
+      Transporte ida e volta · Snorkel · Colete salva-vidas · Seguro de vida · Guia local · Muita diversão e aventura
+      <br><br>
+      <strong>Valores:</strong><br>
+      <div class="priceLine"><span>Adulto – Pix</span><span>R$ 332</span></div>
+      <div class="priceLine"><span>Adulto – Cartão</span><span>R$ 339</span></div>
+      <div class="priceLine"><span>Criança até 10 anos</span><span>R$ 282</span></div>
+      <div class="priceLine"><span>Veículo próprio</span><span>R$ 220</span></div>
     </div>
-</div>
 
-<div class="container">
-    <div class="card">
+    <label>Seu nome</label>
+    <input id="nome" type="text" placeholder="Digite seu nome completo" />
 
-        <div class="info">
-            <strong>Incluso:</strong><br>
-            • Transporte ida e volta<br>
-            • Snorkel + Colete salva-vidas<br>
-            • Seguro de vida<br>
-            • Muita diversão e aventura<br><br>
-
-            <strong>Valores:</strong><br>
-            • Pix: R$ 332<br>
-            • Cartão: R$ 339<br>
-            • Crianças até 10 anos: R$ 282<br>
-            • Veículo próprio: R$ 220<br>
-        </div>
-
-        <label>Seu nome:</label>
-        <input type="text" id="nome" placeholder="Digite seu nome completo">
-
-        <label>Quantidade de vagas:</label>
+    <div class="row">
+      <div class="col">
+        <label>Quantidade de vagas</label>
         <select id="vagas">
-            <option value="" disabled selected>Selecione...</option>
-            <option value="1">1 vaga</option>
-            <option value="2">2 vagas</option>
-            <option value="3">3 vagas</option>
+          <option value="" disabled selected>Selecione…</option>
+          <option value="1">1 vaga</option>
+          <option value="2">2 vagas</option>
+          <option value="3">3 vagas</option>
         </select>
+      </div>
 
-        <label>Forma de pagamento:</label>
-        <select id="pagamento" onchange="mostrarPagamento()">
-            <option value="" disabled selected>Selecione...</option>
-            <option value="pix">Pix</option>
-            <option value="cartao">Cartão de Crédito</option>
+      <div class="col">
+        <label>Tipo</label>
+        <select id="tipo">
+          <option value="adulto" data-pix="332" data-cart="339">Adulto</option>
+          <option value="crianca" data-pix="282" data-cart="282">Criança até 10 anos</option>
+          <option value="veiculo" data-pix="220" data-cart="220">Veículo próprio</option>
         </select>
-
-        <button class="button pix" id="btnPix"
-            onclick="navigator.clipboard.writeText('SUA_CHAVE_PIX'); alert('Chave PIX copiada!');">
-            💸 Copiar chave Pix
-        </button>
-
-        <a class="button cartao" id="btnCartao"
-           href="https://mpago.li/21wuNLV" target="_blank">
-            💳 Pagar no Cartão
-        </a>
-
-        <a class="button whats" id="btnWhats" href="#" target="_blank">
-            📲 Enviar comprovante no WhatsApp
-        </a>
-
+      </div>
     </div>
-</div>
+
+    <label>Forma de pagamento</label>
+    <select id="pag">
+      <option value="" disabled selected>Selecione…</option>
+      <option value="pix">Pix</option>
+      <option value="cartao">Cartão</option>
+    </select>
+
+    <div class="total" id="total">Total: —</div>
+
+    <div class="buttons">
+      <button id="btnPix" class="btn pix">💸 Copiar PIX (trilheiros.roomt@gmail.com)</button>
+      <a id="btnCart" class="btn cart" href="https://mpago.li/21wuNLV" target="_blank">💳 Pagar no cartão</a>
+      <a id="btnWhats" class="btn whats" href="#" target="_blank">📲 Enviar comprovante no WhatsApp</a>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  Trilheiros de Rondonópolis • Instagram: @trilheiros.roomt • WhatsApp: (66) 99692-6174 • © 2025<br>
+  Viva a experiência. Sinta a natureza.
+</footer>
 
 <script>
-function mostrarPagamento() {
-    const nome = document.getElementById("nome").value.trim();
-    const vagas = document.getElementById("vagas").value;
-    const tipo = document.getElementById("pagamento").value;
+  const pixKey = "trilheiros.roomt@gmail.com";
+  const waNumber = "5566996926174";
 
-    if (!nome) {
-        alert("Digite seu nome antes.");
-        document.getElementById("pagamento").value = "";
-        return;
-    }
-    if (!vagas) {
-        alert("Escolha a quantidade de vagas.");
-        document.getElementById("pagamento").value = "";
-        return;
-    }
+  const nome = document.getElementById("nome");
+  const vagas = document.getElementById("vagas");
+  const tipo = document.getElementById("tipo");
+  const pag = document.getElementById("pag");
+  const totalEl = document.getElementById("total");
+  const btnPix = document.getElementById("btnPix");
+  const btnCart = document.getElementById("btnCart");
+  const btnWhats = document.getElementById("btnWhats");
 
-    document.getElementById("btnPix").style.display = "none";
-    document.getElementById("btnCartao").style.display = "none";
+  function calc() {
+    const v = Number(vagas.value);
+    if (!v) { reset(); return; }
 
-    if (tipo === "pix") document.getElementById("btnPix").style.display = "block";
-    if (tipo === "cartao") document.getElementById("btnCartao").style.display = "block";
+    const opt = tipo.options[tipo.selectedIndex];
+    const pixPrice = Number(opt.dataset.pix);
+    const cartPrice = Number(opt.dataset.cart);
+    const method = pag.value;
 
-    const mensagem =
-`Olá! Meu nome é ${nome}.
-Segue minha reserva e comprovante.
+    let unit = pixPrice;
+    if (method === "cartao") unit = cartPrice;
 
-Vagas: ${vagas}
-Pagamento: ${tipo.toUpperCase()}
-Passeio: Lagoa Azul – 21/12
+    const total = v * unit;
+    totalEl.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
 
-Obrigado!`;
+    btnPix.style.display = method === "pix" ? "block" : "none";
+    btnCart.style.display = method === "cartao" ? "block" : "none";
 
-    const url = "https://wa.me/5566996926174?text=" + encodeURIComponent(mensagem);
+    updateWhats();
+    btnWhats.style.display = "block";
+  }
 
-    document.getElementById("btnWhats").href = url;
-    document.getElementById("btnWhats").style.display = "block";
-}
+  function reset() {
+    totalEl.textContent = "Total: —";
+    btnPix.style.display = "none";
+    btnCart.style.display = "none";
+    btnWhats.style.display = "none";
+  }
+
+  function updateWhats() {
+    const nomeTxt = nome.value || "[Nome]";
+    const v = vagas.value || "[Qtd]";
+    const tipoTxt = tipo.options[tipo.selectedIndex].text;
+    const metodo = pag.value || "[Método]";
+    const totalTxt = totalEl.textContent.replace("Total: ", "");
+
+    const msg = 
+`Olá! Meu nome é ${nomeTxt}.
+Quero confirmar minha reserva para a Lagoa Azul (21/12).
+Vagas: ${v}
+Tipo: ${tipoTxt}
+Forma de pagamento: ${metodo.toUpperCase()}
+Valor: ${totalTxt}
+
+Segue meu comprovante.`;
+
+    btnWhats.href =
+      "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(msg);
+  }
+
+  btnPix.onclick = () => {
+    const total = totalEl.textContent.replace("Total: ", "");
+    navigator.clipboard.writeText(`${pixKey} • Valor: ${total}`).then(() => {
+      alert("Chave PIX copiada com sucesso!");
+    });
+  };
+
+  nome.oninput = updateWhats;
+  vagas.onchange = calc;
+  tipo.onchange = calc;
+  pag.onchange = calc;
 </script>
 
 </body>
 </html>
-
